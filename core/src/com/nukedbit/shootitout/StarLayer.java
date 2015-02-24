@@ -79,13 +79,18 @@ public class StarLayer {
         return new Star(x, y, starSpeed);
     }
 
-    public void render(float delta) {
+    public void update(float delta) {
+        for (Star star : stars) {
+            star.move(delta);
+            starIsOutOfScreenReset(star);
+        }
+    }
+
+    public void render() {
         renderer.begin(ShapeRenderer.ShapeType.Point);
         renderer.setColor(Color.WHITE);
         for (Star star : stars) {
             renderStar(star);
-            star.move(delta);
-            starIsOutOfScreenReset(star);
         }
         renderer.end();
     }

@@ -25,7 +25,7 @@ public class StarRendererTests {
         doNothing().when(starLayer2).render(delta);
 
         final StarLayerManager renderer = new StarLayerManager(CreateStarLayerList(starLayer1, starLayer2));
-        renderer.Render(delta);
+        renderer.render(delta);
 
         InOrder inOrder = inOrder(starLayer1,starLayer2);
         inOrder.verify(starLayer1).render(delta);

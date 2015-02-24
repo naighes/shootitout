@@ -24,9 +24,15 @@ public class StarLayerManager {
         this.starLayers = starLayers;
     }
 
-    public void Render(float delta) {
+    public void update(float delta) {
         for (StarLayer starLayer : this.starLayers) {
-            starLayer.render(delta);
+            starLayer.update(delta);
+        }
+    }
+
+    public void render() {
+        for (StarLayer starLayer : this.starLayers) {
+            starLayer.render();
         }
     }
 }
