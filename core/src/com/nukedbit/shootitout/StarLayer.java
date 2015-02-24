@@ -5,12 +5,27 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+/*
+* Copyright 2015 Sebastian Faltoni
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 public class StarLayer {
 
-    private final ArrayList<Star> stars = new ArrayList<Star>();
+    private final ArrayList<Star> stars = new ArrayList<>();
     private final ShapesRenderer renderer;
+    private final RandomValue random;
 
     class Star {
         private final float x;
@@ -41,39 +56,47 @@ public class StarLayer {
         }
     }
 
-    public StarLayer(ShapesRenderer renderer) {
+    public StarLayer(ShapesRenderer renderer, RandomValue random) {
         this.renderer = renderer;
+        this.random = random;
     }
 
-
-
     public void initialize(int starsCount, int starSpeed) {
-        Random random = new Random();
+        for (int i = 0; i < starsCount; i++) {
+            Star star = createStartAtRandomPosition(starSpeed);
+            stars.add(star);
+        }
+    }
+
+    private Star createStartAtRandomPosition(int starSpeed) {
         final int maxWidth = Gdx.graphics.getWidth();
         final int maxHeight = Gdx.graphics.getHeight() + 50;
         final int minWidth = 1;
         final int minHeight = 1;
 
-        for (int i = 0; i < starsCount; i++) {
-            int x = random.nextInt((maxWidth - minWidth) + 1) + minWidth;
-            int y = random.nextInt((maxHeight - minHeight) + 1) + minHeight;
-            Star star = new Star(x, y, starSpeed);
-            stars.add(star);
-        }
+        int x = random.Next(minWidth, maxWidth);
+        int y = random.Next(minHeight, maxHeight);
+        return new Star(x, y, starSpeed);
     }
 
     public void render(float delta) {
         renderer.begin(ShapeRenderer.ShapeType.Point);
         renderer.setColor(Color.WHITE);
-
-        for (int startIndex = 0; startIndex < stars.size(); startIndex++) {
-            Star star = stars.get(startIndex);
-            renderer.point((int) star.getX(), (int) star.getY(), 0);
+        for (Star star : stars) {
+            renderStar(star);
             star.move(delta);
-            if (star.getY() < 0) {
-                star.reset();
-            }
+            starIsOutOfScreenReset(star);
         }
         renderer.end();
+    }
+
+    private void starIsOutOfScreenReset(Star star) {
+        if (star.getY() < 0) {
+            star.reset();
+        }
+    }
+
+    private void renderStar(Star star) {
+        renderer.point((int) star.getX(), (int) star.getY(), 0);
     }
 }
