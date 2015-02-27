@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.ArrayList;
-
-public class StarLayer implements SceneComponent {
-    private final ArrayList<Star> stars = new ArrayList<>();
+public class StarLayer extends SceneComponentBase {
     private final int starsCount;
     private final int starSpeed;
     private final Randomize random;
@@ -18,18 +15,28 @@ public class StarLayer implements SceneComponent {
         this.random = random;
     }
 
+    @Override
     public void initialize() {
         for (int i = 0; i < starsCount; i++) {
-            Star star = createStartAtRandomPosition(starSpeed);
-            stars.add(star);
+            components.add(createStartAtRandomPosition(starSpeed));
         }
+
+        super.initialize();
     }
 
     @Override
     public void update(float delta) {
-        for (Star star : stars){
-            star.update(delta);
-        }
+        super.update(delta);
+    }
+
+    @Override
+    public void render(ShapeRenderer renderer) {
+        renderer.begin(ShapeRenderer.ShapeType.Point);
+        renderer.setColor(Color.WHITE);
+
+        super.render(renderer);
+
+        renderer.end();
     }
 
     private Star createStartAtRandomPosition(int starSpeed) {
@@ -43,18 +50,7 @@ public class StarLayer implements SceneComponent {
         return new Star(x, y, starSpeed);
     }
 
-    public void render(ShapeRenderer renderer) {
-        renderer.begin(ShapeRenderer.ShapeType.Point);
-        renderer.setColor(Color.WHITE);
-
-        for (Star star : stars) {
-            star.render(renderer);
-        }
-
-        renderer.end();
-    }
-
-    public class Star implements SceneComponent {
+    public class Star extends SceneComponentBase {
         private final float x;
         private float y;
         private final int speed;
@@ -65,16 +61,15 @@ public class StarLayer implements SceneComponent {
             this.speed = speed;
         }
 
-        private void reset() {
-            y = Gdx.graphics.getHeight() + 50;
-        }
-
         @Override
         public void initialize() {
+            super.initialize();
         }
 
         @Override
         public void update(float delta) {
+            super.update(delta);
+
             if (isOutOfScreenReset())
                 reset();
             else
@@ -83,11 +78,17 @@ public class StarLayer implements SceneComponent {
 
         @Override
         public void render(ShapeRenderer renderer) {
+            super.render(renderer);
+
             renderer.point((int) x, (int) y, 0);
         }
 
         private boolean isOutOfScreenReset() {
             return y < 0;
+        }
+
+        private void reset() {
+            y = Gdx.graphics.getHeight() + 50;
         }
     }
 }

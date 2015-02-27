@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class ShootItOut extends ApplicationAdapter {
     private ShapeRenderer renderer;
 
-    private final SceneComponent[] components = new SceneComponent[]{
+    private final SceneComponentBase[] components = new SceneComponentBase[]{
             new StarLayer(500, 50, new Randomize()),
             new StarLayer(500, 36, new Randomize()),
     };
@@ -17,7 +17,7 @@ public class ShootItOut extends ApplicationAdapter {
     public void create() {
         renderer = new ShapeRenderer();
 
-        for (SceneComponent component : this.components){
+        for (SceneComponentBase component : this.components){
             component.initialize();
         }
     }
@@ -26,14 +26,14 @@ public class ShootItOut extends ApplicationAdapter {
     public void render() {
         float dt = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f) * 2;
 
-        for (SceneComponent component : this.components){
+        for (SceneComponentBase component : this.components){
             component.update(dt);
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (SceneComponent component : this.components) {
+        for (SceneComponentBase component : this.components) {
             component.render(renderer);
         }
     }
