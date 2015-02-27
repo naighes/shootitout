@@ -25,6 +25,13 @@ public class StarLayer implements SceneComponent {
         }
     }
 
+    @Override
+    public void update(float delta) {
+        for (Star star : stars){
+            star.update(delta);
+        }
+    }
+
     private Star createStartAtRandomPosition(int starSpeed) {
         final int maxWidth = Gdx.graphics.getWidth();
         final int maxHeight = Gdx.graphics.getHeight() + 50;
@@ -36,35 +43,18 @@ public class StarLayer implements SceneComponent {
         return new Star(x, y, starSpeed);
     }
 
-    public void update(float delta) {
-        for (Star star : stars) {
-            star.move(delta);
-            starIsOutOfScreenReset(star);
-        }
-    }
-
     public void render(ShapeRenderer renderer) {
         renderer.begin(ShapeRenderer.ShapeType.Point);
         renderer.setColor(Color.WHITE);
 
         for (Star star : stars) {
-            renderStar(renderer, star);
+            star.render(renderer);
         }
 
         renderer.end();
     }
 
-    private void starIsOutOfScreenReset(Star star) {
-        if (star.getY() < 0) {
-            star.reset();
-        }
-    }
-
-    private void renderStar(ShapeRenderer renderer, Star star) {
-        renderer.point((int) star.getX(), (int) star.getY(), 0);
-    }
-
-    class Star {
+    public class Star implements SceneComponent {
         private final float x;
         private float y;
         private final int speed;
@@ -75,20 +65,29 @@ public class StarLayer implements SceneComponent {
             this.speed = speed;
         }
 
-        public float getX() {
-            return x;
-        }
-
-        public float getY() {
-            return y;
-        }
-
-        public void move(float delta) {
-            y = y - (speed * delta);
-        }
-
-        public void reset() {
+        private void reset() {
             y = Gdx.graphics.getHeight() + 50;
+        }
+
+        @Override
+        public void initialize() {
+        }
+
+        @Override
+        public void update(float delta) {
+            if (isOutOfScreenReset())
+                reset();
+            else
+                y = y - (speed * delta);
+        }
+
+        @Override
+        public void render(ShapeRenderer renderer) {
+            renderer.point((int) x, (int) y, 0);
+        }
+
+        private boolean isOutOfScreenReset() {
+            return y < 0;
         }
     }
 }
