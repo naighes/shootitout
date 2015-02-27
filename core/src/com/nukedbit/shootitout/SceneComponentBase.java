@@ -1,5 +1,6 @@
 package com.nukedbit.shootitout;
 
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public abstract class SceneComponentBase {
         }
     }
 
-    public void update(float delta){
+    public void update(float delta, Graphics graphics){
         for (SceneComponentBase component : components){
-            component.update(delta);
+            component.update(delta, graphics);
         }
     }
 

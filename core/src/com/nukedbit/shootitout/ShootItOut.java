@@ -2,6 +2,7 @@ package com.nukedbit.shootitout;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -22,12 +23,16 @@ public class ShootItOut extends ApplicationAdapter {
         }
     }
 
+    protected Graphics graphics() {
+        return Gdx.graphics;
+    }
+
     @Override
     public void render() {
-        float dt = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f) * 2;
+        float dt = Math.min(graphics().getDeltaTime(), 1 / 60f) * 2;
 
         for (SceneComponentBase component : this.components){
-            component.update(dt);
+            component.update(dt, graphics());
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
