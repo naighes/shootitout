@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class ShootItOut extends ApplicationAdapter {
     private ShapeRenderer renderer;
 
-    private final SceneComponentBase[] components = new SceneComponentBase[]{
+    private final SceneComponentBase[] components = new SceneComponentBase[] {
             new StarLayer(500, 50, new Randomize()),
             new StarLayer(500, 36, new Randomize()),
     };
@@ -18,8 +18,8 @@ public class ShootItOut extends ApplicationAdapter {
     public void create() {
         renderer = new ShapeRenderer();
 
-        for (SceneComponentBase component : this.components){
-            component.initialize();
+        for (SceneComponentBase component : this.components) {
+            component.initialize(graphics());
         }
     }
 
@@ -31,7 +31,7 @@ public class ShootItOut extends ApplicationAdapter {
     public void render() {
         float dt = Math.min(graphics().getDeltaTime(), 1 / 60f) * 2;
 
-        for (SceneComponentBase component : this.components){
+        for (SceneComponentBase component : this.components) {
             component.update(dt, graphics());
         }
 

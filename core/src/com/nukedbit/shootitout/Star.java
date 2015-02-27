@@ -8,7 +8,7 @@ public class Star extends SceneComponentBase {
     private float y;
     private final int speed;
 
-    public static Star create(int speed, Randomize random, Graphics graphics){
+    public static Star create(int speed, Randomize random, Graphics graphics) {
         final int maxWidth = graphics.getWidth();
         final int maxHeight = graphics.getHeight() + 50;
         final int minWidth = 1;
@@ -26,8 +26,8 @@ public class Star extends SceneComponentBase {
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
+    public void initialize(Graphics graphics) {
+        super.initialize(graphics);
     }
 
     @Override
