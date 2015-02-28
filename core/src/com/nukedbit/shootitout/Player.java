@@ -16,6 +16,7 @@ package com.nukedbit.shootitout;/*
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -28,6 +29,7 @@ public class Player extends  SceneComponentBase {
     private float x;
     private float height;
     private float width;
+    private float speed;
 
     public Player()
     {
@@ -37,13 +39,26 @@ public class Player extends  SceneComponentBase {
     @Override
     public void render(ShapeRenderer renderer) {
         batch.begin();
-        batch.draw(playerTexture, this.getY(), this.getX(), this.getWidth(), this.getHeight());
+        batch.draw(playerTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
         batch.end();
         super.render(renderer);
     }
 
     @Override
     public void update(float delta, Graphics graphics) {
+        float deltaMov = speed * delta;
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            this.setX((this.speed * deltaMov) * -1);
+        }else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            this.setX(this.speed * deltaMov);
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            this.setY(this.speed * deltaMov);
+        }else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            this.setY((this.speed * deltaMov) * -1);
+        }
+
         super.update(delta, graphics);
     }
 
@@ -51,11 +66,21 @@ public class Player extends  SceneComponentBase {
     public void initialize(Graphics graphics) {
         playerTexture = new Texture(Gdx.files.internal("player.png"));
         batch = new SpriteBatch();
-        width = 150;
-        height = 150;
+        width = 80;
+        height = 80;
         x = 100;
         y = 100;
+        speed = 20;
         super.initialize(graphics);
+    }
+
+    private void setY(float y)
+    {
+        this.y += y;
+    }
+
+    private void setX(float x){
+        this.x += x;
     }
 
     private float getY() {
