@@ -1,6 +1,5 @@
 package com.nukedbit.shootitout;
 
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -16,26 +15,26 @@ public class StarLayer extends SceneComponentBase {
     }
 
     @Override
-    public void initialize(Graphics graphics) {
+    public void initialize(GraphicsAdapter graphicsAdapter) {
         for (int i = 0; i < starsCount; i++) {
-            components.add(Star.create(starSpeed, random, graphics));
+            components.add(Star.create(starSpeed, random, graphicsAdapter.getGraphics()));
         }
 
-        super.initialize(graphics);
+        super.initialize(graphicsAdapter);
     }
 
     @Override
-    public void update(float delta, Graphics graphics) {
-        super.update(delta, graphics);
+    public void update(float delta, GraphicsAdapter graphicsAdapter) {
+        super.update(delta, graphicsAdapter);
     }
 
     @Override
-    public void render(ShapeRenderer renderer) {
-        renderer.begin(ShapeRenderer.ShapeType.Point);
-        renderer.setColor(Color.WHITE);
+    public void render(GraphicsAdapter graphicsAdapter) {
+        graphicsAdapter.getRenderer().begin(ShapeRenderer.ShapeType.Point);
+        graphicsAdapter.getRenderer().setColor(Color.WHITE);
 
-        super.render(renderer);
+        super.render(graphicsAdapter);
 
-        renderer.end();
+        graphicsAdapter.getRenderer().end();
     }
 }

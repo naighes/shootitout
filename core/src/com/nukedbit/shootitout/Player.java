@@ -1,101 +1,71 @@
-package com.nukedbit.shootitout;/* 
-* Copyright 2015 Sebastian Faltoni
-* 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* 
-*     http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+package com.nukedbit.shootitout;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Player extends  SceneComponentBase {
-
+public class Player extends SceneComponentBase {
     private Texture playerTexture;
-    private SpriteBatch batch;
+    private final float height;
+    private final float width;
     private float y;
     private float x;
-    private float height;
-    private float width;
     private float speed;
+    private final String texturePath;
 
-    public Player()
+    public Player(String texturePath,
+                  float width,
+                  float height,
+                  float x,
+                  float y,
+                  float speed)
     {
-
+        this.texturePath = texturePath;
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
     }
 
     @Override
-    public void render(ShapeRenderer renderer) {
-        batch.begin();
-        batch.draw(playerTexture, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        batch.end();
-        super.render(renderer);
+    public void render(GraphicsAdapter graphicsAdapter) {
+        graphicsAdapter.getSpriteBatch().begin();
+        graphicsAdapter.getSpriteBatch().draw(playerTexture, x, y, width, height);
+        graphicsAdapter.getSpriteBatch().end();
+
+        super.render(graphicsAdapter);
     }
 
     @Override
-    public void update(float delta, Graphics graphics) {
+    public void update(float delta, GraphicsAdapter graphicsAdapter) {
         float deltaMov = speed * delta;
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            this.setX((this.speed * deltaMov) * -1);
-        }else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            this.setX(this.speed * deltaMov);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            this.move((this.speed * deltaMov) * -1, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            this.move(this.speed * deltaMov, 0);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            this.setY(this.speed * deltaMov);
-        }else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            this.setY((this.speed * deltaMov) * -1);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            this.move(0, this.speed * deltaMov);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            this.move(0, (this.speed * deltaMov) * -1);
         }
 
-        super.update(delta, graphics);
+        super.update(delta, graphicsAdapter);
     }
 
     @Override
-    public void initialize(Graphics graphics) {
-        playerTexture = new Texture(Gdx.files.internal("player.png"));
-        batch = new SpriteBatch();
-        width = 80;
-        height = 80;
-        x = 100;
-        y = 100;
-        speed = 20;
-        super.initialize(graphics);
+    public void initialize(GraphicsAdapter graphicsAdapter) {
+        playerTexture = new Texture(Gdx.files.internal(texturePath));
+
+        super.initialize(graphicsAdapter);
     }
 
-    private void setY(float y)
-    {
-        this.y += y;
-    }
-
-    private void setX(float x){
+    private void move(float x, float y) {
         this.x += x;
-    }
-
-    private float getY() {
-        return y;
-    }
-
-    private float getX() {
-        return x;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public float getWidth() {
-        return width;
+        this.y += y;
     }
 }

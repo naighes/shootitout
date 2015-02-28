@@ -1,7 +1,6 @@
 package com.nukedbit.shootitout;
 
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Star extends SceneComponentBase {
     private final float x;
@@ -26,25 +25,25 @@ public class Star extends SceneComponentBase {
     }
 
     @Override
-    public void initialize(Graphics graphics) {
-        super.initialize(graphics);
+    public void initialize(GraphicsAdapter graphicsAdapter) {
+        super.initialize(graphicsAdapter);
     }
 
     @Override
-    public void update(float delta, Graphics graphics) {
-        super.update(delta, graphics);
+    public void update(float delta, GraphicsAdapter graphicsAdapter) {
+        super.update(delta, graphicsAdapter);
 
         if (isOutOfScreenReset())
-            reset(graphics);
+            reset(graphicsAdapter.getGraphics());
         else
             y = y - (speed * delta);
     }
 
     @Override
-    public void render(ShapeRenderer renderer) {
-        super.render(renderer);
+    public void render(GraphicsAdapter graphicsAdapter) {
+        super.render(graphicsAdapter);
 
-        renderer.point((int) x, (int) y, 0);
+        graphicsAdapter.getRenderer().point((int) x, (int) y, 0);
     }
 
     private boolean isOutOfScreenReset() {

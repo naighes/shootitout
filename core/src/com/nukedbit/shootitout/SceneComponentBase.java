@@ -1,7 +1,5 @@
 package com.nukedbit.shootitout;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
@@ -9,21 +7,21 @@ import java.util.ArrayList;
 public abstract class SceneComponentBase {
     protected ArrayList<SceneComponentBase> components = new ArrayList<>();
 
-    public void render(ShapeRenderer renderer) {
+    public void render(GraphicsAdapter graphicsAdapter) {
         for (SceneComponentBase component : components) {
-            component.render(renderer);
+            component.render(graphicsAdapter);
         }
     }
 
-    public void update(float delta, Graphics graphics) {
+    public void update(float delta, GraphicsAdapter graphicsAdapter) {
         for (SceneComponentBase component : components) {
-            component.update(delta, graphics);
+            component.update(delta, graphicsAdapter);
         }
     }
 
-    public void initialize(Graphics graphics) {
+    public void initialize(GraphicsAdapter graphicsAdapter) {
         for (SceneComponentBase component : components) {
-            component.initialize(Gdx.graphics);
+            component.initialize(graphicsAdapter);
         }
     }
 }
