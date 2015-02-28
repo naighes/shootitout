@@ -12,6 +12,7 @@ public class ShootItOut extends ApplicationAdapter {
     private final SceneComponentBase[] components = new SceneComponentBase[] {
             new StarLayer(500, 50, new Randomize()),
             new StarLayer(500, 36, new Randomize()),
+            new Player()
     };
 
     @Override
