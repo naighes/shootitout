@@ -3,7 +3,6 @@ package com.nukedbit.shootitout;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Player extends SceneComponentBase {
     private Texture playerTexture;
