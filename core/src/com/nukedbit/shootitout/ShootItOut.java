@@ -12,11 +12,7 @@ public class ShootItOut extends ApplicationAdapter {
     public ShootItOut() {
     }
 
-    private final SceneComponentBase[] components = new SceneComponentBase[] {
-            new StarLayer(500, 50, new Randomize()),
-            new StarLayer(500, 36, new Randomize()),
-            new Player("player.png", 80, 80, 100, 100, 20)
-    };
+    private SceneComponent[] components;
 
     @Override
     public void create() {
@@ -25,24 +21,37 @@ public class ShootItOut extends ApplicationAdapter {
                                                    new ShapeRenderer(),
                                                    new SpriteBatch());
 
-        for (SceneComponentBase component : this.components) {
+        components = new SceneComponent[] {
+                new KeyboardInput(Gdx.input),
+                new StarLayer(500, 50, new Randomize()),
+                new StarLayer(500, 36, new Randomize()),
+                new Player("player.png", 80, 80, 100, 100, 20)
+        };
+
+        for (SceneComponent component : this.components) {
             component.initialize(graphicsAdapter);
         }
     }
 
     @Override
     public void render() {
-        float dt = Math.min(graphicsAdapter.getGraphics().getDeltaTime(), 1 / 60f) * 2;
+        float delta = Math.min(graphicsAdapter.getGraphics().getDeltaTime(), 1 / 60f) * 2;
 
-        for (SceneComponentBase component : this.components) {
-            component.update(dt, graphicsAdapter);
-        }
+        update(delta);
 
         graphicsAdapter.getGl20().glClearColor(0, 0, 0, 1);
         graphicsAdapter.getGl20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        for (SceneComponentBase component : this.components) {
-            component.render(graphicsAdapter);
+        for (SceneComponent component : this.components) {
+            if (component.getClass().isInstance(Drawable.class)) {
+                ((Drawable)component).render(graphicsAdapter);
+            }
+        }
+    }
+
+    private void update(float delta) {
+        for (SceneComponent component : this.components) {
+            component.update(delta, graphicsAdapter);
         }
     }
 }
