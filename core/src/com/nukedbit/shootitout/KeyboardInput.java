@@ -4,8 +4,9 @@ import com.badlogic.gdx.Input;
 
 import java.util.ArrayList;
 
-public class KeyboardInput implements SceneComponent {
+public class KeyboardInput implements SceneComponent, Observable<KeyPressed>  {
     private final Input input;
+    private ArrayList<Observer<KeyPressed>> observers = new ArrayList<>();
 
     private final int[] lookup = new int[] {
             Input.Keys.LEFT,
@@ -25,10 +26,25 @@ public class KeyboardInput implements SceneComponent {
                 stream.add(new KeyPressed(key));
             }
         }
+
+        notify(stream);
+    }
+
+    private void notify(ArrayList<KeyPressed> stream) {
+        for (KeyPressed key : stream) {
+            for (Observer<KeyPressed> observer : observers) {
+                observer.notify(key);
+            }
+        }
     }
 
     @Override
     public void initialize(GraphicsAdapter graphicsAdapter) {
 
+    }
+
+    @Override
+    public void subscribe(Observer<KeyPressed> observer) {
+        this.observers.add(observer);
     }
 }
