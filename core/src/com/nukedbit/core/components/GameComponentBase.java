@@ -1,7 +1,7 @@
-package com.nukedbit.shootitout.components;
+package com.nukedbit.core.components;
 
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.graphics.GraphicsAdapter;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ public abstract class GameComponentBase implements GameComponent {
         return this.components;
     }
 
-    public void update(float delta, GraphicsAdapter graphicsAdapter) {
+    public void update(float delta) {
         for (GameComponent component : components) {
-            component.update(delta, graphicsAdapter);
+            component.update(delta);
         }
     }
 

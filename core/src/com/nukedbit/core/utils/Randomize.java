@@ -1,4 +1,4 @@
-package com.nukedbit.shootitout.utils;
+package com.nukedbit.core.utils;
 
 import java.util.Random;
 

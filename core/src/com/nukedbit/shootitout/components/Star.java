@@ -1,8 +1,9 @@
 package com.nukedbit.shootitout.components;
 
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
-import com.nukedbit.shootitout.utils.Randomize;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.components.DrawableComponentBase;
+import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.utils.Randomize;
 
 public class Star extends DrawableComponentBase {
     private final float x;
@@ -37,8 +38,8 @@ public class Star extends DrawableComponentBase {
     }
 
     @Override
-    public void update(float delta, GraphicsAdapter graphicsAdapter) {
-        super.update(delta, graphicsAdapter);
+    public void update(float delta) {
+        super.update(delta);
 
         if (isOutOfScreenReset())
             reset();

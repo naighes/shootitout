@@ -1,8 +1,8 @@
-package com.nukedbit.shootitout.components;
+package com.nukedbit.core.components;
 
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.graphics.Drawable;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.graphics.Drawable;
+import com.nukedbit.core.graphics.GraphicsAdapter;
 
 public class DrawableComponentBase extends GameComponentBase implements Drawable {
     protected DrawableComponentBase(Game game) {

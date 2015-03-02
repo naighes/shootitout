@@ -1,4 +1,4 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.core.graphics;
 
 public class ViewPort {
     private final int width;

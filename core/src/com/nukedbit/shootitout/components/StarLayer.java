@@ -2,9 +2,10 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
-import com.nukedbit.shootitout.utils.Randomize;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.components.DrawableComponentBase;
+import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.utils.Randomize;
 
 public class StarLayer extends DrawableComponentBase {
     private final int starsCount;
@@ -34,8 +35,8 @@ public class StarLayer extends DrawableComponentBase {
     }
 
     @Override
-    public void update(float delta, GraphicsAdapter graphicsAdapter) {
-        super.update(delta, graphicsAdapter);
+    public void update(float delta) {
+        super.update(delta);
     }
 
     @Override

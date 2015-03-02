@@ -3,10 +3,11 @@ package com.nukedbit.shootitout.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.components.input.KeyboardInput;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
-import com.nukedbit.shootitout.observing.Observer;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.components.DrawableComponentBase;
+import com.nukedbit.core.components.input.KeyboardInput;
+import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.observing.Observer;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyPressed> {
     private Texture playerTexture;
@@ -45,8 +46,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     }
 
     @Override
-    public void update(float delta, GraphicsAdapter graphicsAdapter) {
-        super.update(delta, graphicsAdapter);
+    public void update(float delta) {
+        super.update(delta);
     }
 
     @Override

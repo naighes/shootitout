@@ -1,11 +1,11 @@
-package com.nukedbit.shootitout.components.input;
+package com.nukedbit.core.components.input;
 
 import com.badlogic.gdx.Input;
-import com.nukedbit.shootitout.Game;
-import com.nukedbit.shootitout.components.GameComponentBase;
-import com.nukedbit.shootitout.graphics.GraphicsAdapter;
-import com.nukedbit.shootitout.observing.Observable;
-import com.nukedbit.shootitout.observing.Observer;
+import com.nukedbit.core.Game;
+import com.nukedbit.core.components.GameComponentBase;
+import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.observing.Observable;
+import com.nukedbit.core.observing.Observer;
 
 import java.util.ArrayList;
 
@@ -25,8 +25,8 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
     }
 
     @Override
-    public void update(float delta, GraphicsAdapter graphicsAdapter) {
-        super.update(delta, graphicsAdapter);
+    public void update(float delta) {
+        super.update(delta);
 
         ArrayList<KeyPressed> stream = new ArrayList<>();
 
