@@ -23,7 +23,7 @@ public class KeyboardInput implements SceneComponent, Observable<KeyPressed>  {
 
         for (int key : lookup) {
             if (input.isKeyPressed(key)) {
-                stream.add(new KeyPressed(key));
+                stream.add(new KeyPressed(key, delta));
             }
         }
 
@@ -40,10 +40,8 @@ public class KeyboardInput implements SceneComponent, Observable<KeyPressed>  {
 
     @Override
     public void initialize(GraphicsAdapter graphicsAdapter) {
-
     }
 
-    @Override
     public void subscribe(Observer<KeyPressed> observer) {
         this.observers.add(observer);
     }

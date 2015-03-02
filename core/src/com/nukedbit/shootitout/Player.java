@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Player extends SceneComponentBase {
+public class Player extends SceneComponentBase implements Observer<KeyPressed> {
     private Texture playerTexture;
     private final float height;
     private final float width;
@@ -39,20 +39,6 @@ public class Player extends SceneComponentBase {
 
     @Override
     public void update(float delta, GraphicsAdapter graphicsAdapter) {
-        float deltaMov = speed * delta;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            this.move((this.speed * deltaMov) * -1, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            this.move(this.speed * deltaMov, 0);
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            this.move(0, this.speed * deltaMov);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            this.move(0, (this.speed * deltaMov) * -1);
-        }
-
         super.update(delta, graphicsAdapter);
     }
 
@@ -66,5 +52,22 @@ public class Player extends SceneComponentBase {
     private void move(float x, float y) {
         this.x += x;
         this.y += y;
+    }
+
+    @Override
+    public void notify(KeyPressed input) {
+        float newSpeed = this.speed * input.getDelta();
+
+        if (input.getKey() == Input.Keys.LEFT) {
+            this.move(newSpeed * -1, 0);
+        } else if (input.getKey() == Input.Keys.RIGHT) {
+            this.move(newSpeed, 0);
+        }
+
+        if (input.getKey() == Input.Keys.UP) {
+            this.move(0, newSpeed);
+        } else if (input.getKey() == Input.Keys.DOWN) {
+            this.move(0, newSpeed * -1);
+        }
     }
 }

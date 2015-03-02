@@ -6,13 +6,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.ArrayList;
+
 public class ShootItOut extends ApplicationAdapter {
     private GraphicsAdapter graphicsAdapter;
 
     public ShootItOut() {
     }
 
-    private SceneComponent[] components;
+    private ArrayList<SceneComponent> components = new ArrayList<>();
 
     @Override
     public void create() {
@@ -20,17 +22,22 @@ public class ShootItOut extends ApplicationAdapter {
                                                    Gdx.graphics,
                                                    new ShapeRenderer(),
                                                    new SpriteBatch());
-
-        components = new SceneComponent[] {
-                new KeyboardInput(Gdx.input),
-                new StarLayer(500, 50, new Randomize()),
-                new StarLayer(500, 36, new Randomize()),
-                new Player("player.png", 80, 80, 100, 100, 20)
-        };
+        prepareComponents();
 
         for (SceneComponent component : this.components) {
             component.initialize(graphicsAdapter);
         }
+    }
+
+    private void prepareComponents() {
+        Randomize random = new Randomize();
+        KeyboardInput input = new KeyboardInput(Gdx.input);
+        Player player = new Player("player.png", 80, 80, 100, 100, 20);
+        input.subscribe(player);
+        this.components.add(input);
+        this.components.add(player);
+        this.components.add(new StarLayer(500, 50, random));
+        this.components.add(new StarLayer(500, 36, random));
     }
 
     @Override
