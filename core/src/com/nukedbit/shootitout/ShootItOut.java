@@ -45,13 +45,13 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
     private void prepareComponents() {
         Randomize random = new Randomize();
+        this.components.add(new StarLayer(this, 500, 50, random));
+        this.components.add(new StarLayer(this, 500, 36, random));
         KeyboardInput input = new KeyboardInput(this, Gdx.input);
         Player player = new Player(this, "player.png", 80, 80, 100, 100, 20);
         input.subscribe(player);
         this.components.add(input);
         this.components.add(player);
-        this.components.add(new StarLayer(this, 500, 50, random));
-        this.components.add(new StarLayer(this, 500, 36, random));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
     @Override
     public void render(GraphicsAdapter graphicsAdapter) {
         for (GameComponent component : this.components) {
-            if (component.getClass().isInstance(Drawable.class)) {
+            if (component instanceof Drawable) {
                 ((Drawable)component).render(graphicsAdapter);
             }
         }

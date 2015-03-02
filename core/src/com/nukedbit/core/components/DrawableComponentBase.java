@@ -11,7 +11,7 @@ public class DrawableComponentBase extends GameComponentBase implements Drawable
 
     public void render(GraphicsAdapter graphicsAdapter) {
         for (GameComponent component : this.getComponents()) {
-            if (component.getClass().isInstance(Drawable.class)) {
+            if (component instanceof Drawable) {
                 ((Drawable) component).render(graphicsAdapter);
             }
         }
