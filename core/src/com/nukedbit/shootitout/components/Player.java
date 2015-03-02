@@ -3,11 +3,12 @@ package com.nukedbit.shootitout.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.nukedbit.shootitout.Game;
 import com.nukedbit.shootitout.components.input.KeyboardInput;
 import com.nukedbit.shootitout.graphics.GraphicsAdapter;
 import com.nukedbit.shootitout.observing.Observer;
 
-public class Player extends SceneComponentBase implements Observer<KeyboardInput.KeyPressed> {
+public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyPressed> {
     private Texture playerTexture;
     private final float height;
     private final float width;
@@ -16,13 +17,16 @@ public class Player extends SceneComponentBase implements Observer<KeyboardInput
     private float speed;
     private final String texturePath;
 
-    public Player(String texturePath,
+    public Player(Game game,
+                  String texturePath,
                   float width,
                   float height,
                   float x,
                   float y,
                   float speed)
     {
+        super(game);
+
         this.texturePath = texturePath;
         this.width = width;
         this.height = height;

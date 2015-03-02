@@ -1,14 +1,15 @@
 package com.nukedbit.shootitout.components.input;
 
 import com.badlogic.gdx.Input;
+import com.nukedbit.shootitout.Game;
+import com.nukedbit.shootitout.components.GameComponentBase;
 import com.nukedbit.shootitout.graphics.GraphicsAdapter;
 import com.nukedbit.shootitout.observing.Observable;
 import com.nukedbit.shootitout.observing.Observer;
-import com.nukedbit.shootitout.components.SceneComponent;
 
 import java.util.ArrayList;
 
-public class KeyboardInput implements SceneComponent, Observable<KeyboardInput.KeyPressed> {
+public class KeyboardInput extends GameComponentBase implements Observable<KeyboardInput.KeyPressed> {
     private final Input input;
     private ArrayList<Observer<KeyPressed>> observers = new ArrayList<>();
 
@@ -17,12 +18,16 @@ public class KeyboardInput implements SceneComponent, Observable<KeyboardInput.K
             Input.Keys.RIGHT
     };
 
-    public KeyboardInput(Input input) {
+    public KeyboardInput(Game game, Input input) {
+        super(game);
+
         this.input = input;
     }
 
     @Override
     public void update(float delta, GraphicsAdapter graphicsAdapter) {
+        super.update(delta, graphicsAdapter);
+
         ArrayList<KeyPressed> stream = new ArrayList<>();
 
         for (int key : lookup) {
@@ -44,6 +49,7 @@ public class KeyboardInput implements SceneComponent, Observable<KeyboardInput.K
 
     @Override
     public void initialize(GraphicsAdapter graphicsAdapter) {
+        super.initialize(graphicsAdapter);
     }
 
     public void subscribe(Observer<KeyPressed> observer) {

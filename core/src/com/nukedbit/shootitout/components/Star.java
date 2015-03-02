@@ -1,26 +1,31 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.Graphics;
+import com.nukedbit.shootitout.Game;
 import com.nukedbit.shootitout.graphics.GraphicsAdapter;
 import com.nukedbit.shootitout.utils.Randomize;
 
-public class Star extends SceneComponentBase {
+public class Star extends DrawableComponentBase {
     private final float x;
     private float y;
     private final int speed;
 
-    public static Star create(int speed, Randomize random, Graphics graphics) {
-        final int maxWidth = graphics.getWidth();
-        final int maxHeight = graphics.getHeight() + 50;
+    public static Star create(Game game,
+                              int speed,
+                              Randomize random) {
+        final int maxWidth = game.getViewPort().getWidth();
+        final int maxHeight = game.getViewPort().getHeight() + 50;
         final int minWidth = 1;
         final int minHeight = 1;
 
-        return new Star(random.Next(minWidth, maxWidth),
+        return new Star(game,
+                        random.Next(minWidth, maxWidth),
                         random.Next(minHeight, maxHeight),
                         speed);
     }
 
-    private Star(float x, float y, int speed) {
+    private Star(Game game, float x, float y, int speed) {
+        super(game);
+
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -36,7 +41,7 @@ public class Star extends SceneComponentBase {
         super.update(delta, graphicsAdapter);
 
         if (isOutOfScreenReset())
-            reset(graphicsAdapter.getGraphics());
+            reset();
         else
             y = y - (speed * delta);
     }
@@ -52,7 +57,7 @@ public class Star extends SceneComponentBase {
         return y < 0;
     }
 
-    private void reset(Graphics graphics) {
-        y = graphics.getHeight() + 50;
+    private void reset() {
+        y = this.getGame().getViewPort().getHeight() + 50;
     }
 }

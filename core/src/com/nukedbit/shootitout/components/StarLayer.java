@@ -2,15 +2,21 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.nukedbit.shootitout.Game;
 import com.nukedbit.shootitout.graphics.GraphicsAdapter;
 import com.nukedbit.shootitout.utils.Randomize;
 
-public class StarLayer extends SceneComponentBase {
+public class StarLayer extends DrawableComponentBase {
     private final int starsCount;
     private final int starSpeed;
     private final Randomize random;
 
-    public StarLayer(int starsCount, int starSpeed, Randomize random) {
+    public StarLayer(Game game,
+                     int starsCount,
+                     int starSpeed,
+                     Randomize random) {
+        super(game);
+
         this.starsCount = starsCount;
         this.starSpeed = starSpeed;
         this.random = random;
@@ -19,7 +25,9 @@ public class StarLayer extends SceneComponentBase {
     @Override
     public void initialize(GraphicsAdapter graphicsAdapter) {
         for (int i = 0; i < starsCount; i++) {
-            components.add(Star.create(starSpeed, random, graphicsAdapter.getGraphics()));
+            this.getComponents().add(Star.create(this.getGame(),
+                                                 starSpeed,
+                                                 random));
         }
 
         super.initialize(graphicsAdapter);
