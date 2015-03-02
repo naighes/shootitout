@@ -15,7 +15,9 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
 
     private final int[] lookup = new int[] {
             Input.Keys.LEFT,
-            Input.Keys.RIGHT
+            Input.Keys.RIGHT,
+            Input.Keys.UP,
+            Input.Keys.DOWN
     };
 
     public KeyboardInput(Game game, Input input) {

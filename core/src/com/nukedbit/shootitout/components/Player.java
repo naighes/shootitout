@@ -10,6 +10,7 @@ import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.observing.Observer;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyPressed> {
+    public static final float SpeedFactor = 9.5f;
     private Texture playerTexture;
     private final float height;
     private final float width;
@@ -64,7 +65,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     @Override
     public void notify(KeyboardInput.KeyPressed input) {
-        float newSpeed = this.speed * input.getDelta();
+        float newSpeed = this.speed * input.getDelta() * SpeedFactor;
 
         if (input.getKey() == Input.Keys.LEFT) {
             this.move(newSpeed * -1, 0);
