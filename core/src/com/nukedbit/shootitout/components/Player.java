@@ -1,10 +1,13 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.nukedbit.shootitout.components.input.KeyboardInput;
+import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.shootitout.observing.Observer;
 
-public class Player extends SceneComponentBase implements Observer<KeyPressed> {
+public class Player extends SceneComponentBase implements Observer<KeyboardInput.KeyPressed> {
     private Texture playerTexture;
     private final float height;
     private final float width;
@@ -55,7 +58,7 @@ public class Player extends SceneComponentBase implements Observer<KeyPressed> {
     }
 
     @Override
-    public void notify(KeyPressed input) {
+    public void notify(KeyboardInput.KeyPressed input) {
         float newSpeed = this.speed * input.getDelta();
 
         if (input.getKey() == Input.Keys.LEFT) {

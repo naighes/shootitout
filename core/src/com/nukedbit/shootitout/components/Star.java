@@ -1,6 +1,8 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Graphics;
+import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.shootitout.utils.Randomize;
 
 public class Star extends SceneComponentBase {
     private final float x;

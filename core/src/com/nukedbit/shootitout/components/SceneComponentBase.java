@@ -1,4 +1,7 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.shootitout.components;
+
+import com.nukedbit.shootitout.graphics.Drawable;
+import com.nukedbit.shootitout.graphics.GraphicsAdapter;
 
 import java.util.ArrayList;
 

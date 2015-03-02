@@ -1,11 +1,8 @@
-import com.nukedbit.shootitout.StarLayer;
+import com.nukedbit.shootitout.components.StarLayer;
 import org.junit.Test;
-import org.mockito.InOrder;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.mockito.Mockito.*;
 
 public class StarRendererTests {
     @Test

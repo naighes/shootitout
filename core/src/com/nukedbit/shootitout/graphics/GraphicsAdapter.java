@@ -1,4 +1,4 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.shootitout.graphics;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;

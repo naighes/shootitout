@@ -5,6 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.nukedbit.shootitout.components.Player;
+import com.nukedbit.shootitout.components.SceneComponent;
+import com.nukedbit.shootitout.components.StarLayer;
+import com.nukedbit.shootitout.components.input.KeyboardInput;
+import com.nukedbit.shootitout.graphics.Drawable;
+import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.shootitout.utils.Randomize;
 
 import java.util.ArrayList;
 

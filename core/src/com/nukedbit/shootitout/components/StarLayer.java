@@ -1,7 +1,9 @@
-package com.nukedbit.shootitout;
+package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.nukedbit.shootitout.graphics.GraphicsAdapter;
+import com.nukedbit.shootitout.utils.Randomize;
 
 public class StarLayer extends SceneComponentBase {
     private final int starsCount;
