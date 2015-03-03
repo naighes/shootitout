@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.Game;
 import com.nukedbit.core.components.GameComponent;
 import com.nukedbit.shootitout.components.Player;
@@ -48,7 +49,7 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
         this.components.add(new StarLayer(this, 500, 50, random));
         this.components.add(new StarLayer(this, 500, 36, random));
         KeyboardInput input = new KeyboardInput(this, Gdx.input);
-        Player player = new Player(this, "player.png", 80, 80, 100, 100, 20);
+        Player player = new Player(this, "player.png", 80, 80, new Vector2(100f, 100f));
         input.subscribe(player);
         this.components.add(input);
         this.components.add(player);
