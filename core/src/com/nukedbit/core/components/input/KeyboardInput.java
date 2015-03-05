@@ -8,10 +8,11 @@ import com.nukedbit.core.observing.Observable;
 import com.nukedbit.core.observing.Observer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
-public class KeyboardInput extends GameComponentBase implements Observable<KeyboardInput.KeyPressed> {
+public class KeyboardInput extends GameComponentBase implements Observable<KeyboardInput.KeyEvent> {
     private final Input input;
-    private ArrayList<Observer<KeyPressed>> observers = new ArrayList<>();
+    private ArrayList<Observer<KeyEvent>> observers = new ArrayList<>();
 
     private final int[] lookup = new int[] {
             Input.Keys.LEFT,
@@ -26,26 +27,28 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
         this.input = input;
     }
 
+    private final HashSet<Integer> pressed = new HashSet<>();
+
     @Override
     public void update(float delta) {
         super.update(delta);
 
-        ArrayList<KeyPressed> stream = new ArrayList<>();
-
         for (int key : lookup) {
-            if (input.isKeyPressed(key)) {
-                stream.add(new KeyPressed(key, delta));
+            if (input.isKeyPressed(key) && !pressed.contains(key)) {
+                pressed.add(key);
+                notify(new KeyPressed(key, delta));
+            }
+
+            if (!input.isKeyPressed(key) && pressed.contains(key)) {
+                pressed.remove(key);
+                notify(new KeyReleased(key, delta));
             }
         }
-
-        notify(stream);
     }
 
-    private void notify(ArrayList<KeyPressed> stream) {
-        for (KeyPressed key : stream) {
-            for (Observer<KeyPressed> observer : observers) {
-                observer.notify(key);
-            }
+    private void notify(KeyEvent event) {
+        for (Observer<KeyEvent> observer : observers) {
+            observer.notify(event);
         }
     }
 
@@ -54,15 +57,15 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
         super.initialize(graphicsAdapter);
     }
 
-    public void subscribe(Observer<KeyPressed> observer) {
+    public void subscribe(Observer<KeyEvent> observer) {
         this.observers.add(observer);
     }
 
-    public static class KeyPressed {
+    public abstract static class KeyEvent {
         private final int key;
         private final float delta;
 
-        public KeyPressed(int key, float delta) {
+        public KeyEvent(int key, float delta) {
             this.key = key;
             this.delta = delta;
         }
@@ -72,7 +75,7 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
             boolean result = false;
 
             if (other instanceof KeyPressed) {
-                KeyPressed that = (KeyPressed) other;
+                KeyEvent that = (KeyEvent) other;
                 result = this.getKey() == that.getKey();
             }
 
@@ -85,6 +88,28 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
 
         public float getDelta() {
             return delta;
+        }
+    }
+
+    public static class KeyPressed extends KeyEvent {
+        public KeyPressed(int key, float delta) {
+            super(key, delta);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return super.equals(other) && other instanceof KeyPressed;
+        }
+    }
+
+    public static class KeyReleased extends KeyEvent {
+        public KeyReleased(int key, float delta) {
+            super(key, delta);
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return super.equals(other) && other instanceof KeyReleased;
         }
     }
 }
