@@ -14,17 +14,13 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
     private final Input input;
     private ArrayList<Observer<KeyEvent>> observers = new ArrayList<>();
 
-    private final int[] lookup = new int[] {
-            Input.Keys.LEFT,
-            Input.Keys.RIGHT,
-            Input.Keys.UP,
-            Input.Keys.DOWN
-    };
+    private final int[] lookup;
 
-    public KeyboardInput(Game game, Input input) {
+    public KeyboardInput(Game game, Input input, int[] lookup) {
         super(game);
 
         this.input = input;
+        this.lookup = lookup;
     }
 
     private final HashSet<Integer> pressed = new HashSet<>();

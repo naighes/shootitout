@@ -12,7 +12,7 @@ import com.nukedbit.core.observing.Observer;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
     private final float mass = 0.1f;
-    private final float max_thrust = 168.0f;
+    private final float maxThrust = 168.0f;
     private final float airResistance = -0.1f;
 
     private final float height;
@@ -59,7 +59,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         if (this.direction.x == 0f && this.direction.y == 0f) {
             this.thrust = 0f;
         } else {
-            this.thrust = max_thrust;
+            this.thrust = maxThrust;
         }
 
         Vector2 acceleration = new Vector2(this.direction.x * this.thrust / this.mass,
