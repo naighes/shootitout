@@ -9,10 +9,9 @@ import com.nukedbit.core.components.DrawableComponentBase;
 import com.nukedbit.core.components.input.KeyboardInput;
 import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.observing.Observer;
-import com.nukedbit.core.physics.Environment;
+import com.nukedbit.core.physics.RigidBody;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
-    private final float mass = 0.1f;
     private final float maxThrust = 168.0f;
 
     private final float height;
@@ -21,16 +20,14 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     private Texture texture;
     private Vector2 position;
-    private final Environment environment;
-    private Vector2 direction = new Vector2(0f, 0f);
-    private float thrust = 0f;
+    private final RigidBody body;
 
     public Player(Game game,
                   String texturePath,
                   float width,
                   float height,
                   Vector2 initialPosition,
-                  Environment environment)
+                  RigidBody body)
     {
         super(game);
 
@@ -38,7 +35,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.width = width;
         this.height = height;
         this.position = initialPosition;
-        this.environment = environment;
+        this.body = body;
     }
 
     @Override
@@ -55,21 +52,21 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         super.render(graphicsAdapter);
     }
 
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+    private final Vector2 zero = new Vector2(0f, 0f);
 
-        if (this.direction.x == 0f && this.direction.y == 0f) {
-            this.thrust = 0f;
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+
+        if (this.body.getDirection() == zero) {
+            this.body.setScalarForce(0f);
         } else {
-            this.thrust = maxThrust;
+            this.body.setScalarForce(maxThrust);
         }
 
-        Vector2 acceleration = new Vector2(this.direction.x * this.thrust / this.mass,
-                                           this.direction.y * this.thrust / this.mass);
-        this.velocity = calculateVelocity(acceleration, this.velocity, delta);
-        this.velocity.add(this.environment.calculateDragVelocity(this.velocity));
-        this.position.add(this.velocity);
+        this.body.update(dt);
+
+        this.position.add(this.body.getVelocity());
     }
 
     @Override
@@ -77,13 +74,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.texture = new Texture(Gdx.files.internal(this.texturePath));
 
         super.initialize(graphicsAdapter);
-    }
-
-    private Vector2 velocity = new Vector2(0f, 0f);
-
-    private Vector2 calculateVelocity(Vector2 acceleration, Vector2 velocity, float dt) {
-        return new Vector2(velocity.x + ((0.5f) * (acceleration.x * (float) Math.pow(dt, 2f))),
-                           velocity.y + ((0.5f) * (acceleration.y * (float) Math.pow(dt, 2f))));
     }
 
     @Override
@@ -99,25 +89,25 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     public void notify(KeyboardInput.KeyReleased input) {
         if (input.getKey() == Input.Keys.LEFT) {
-            this.direction.x = 0f;
+            this.body.setDirection(0f, this.body.getDirection().y);
         } else if (input.getKey() == Input.Keys.RIGHT) {
-            this.direction.x = 0f;
+            this.body.setDirection(0f, this.body.getDirection().y);
         } else if (input.getKey() == Input.Keys.DOWN) {
-            this.direction.y = 0f;
+            this.body.setDirection(this.body.getDirection().x, 0f);
         } else if (input.getKey() == Input.Keys.UP) {
-            this.direction.y = 0f;
+            this.body.setDirection(this.body.getDirection().x, 0f);
         }
     }
 
     public void notify(KeyboardInput.KeyPressed input) {
         if (input.getKey() == Input.Keys.LEFT) {
-            this.direction.x = -1f;
+            this.body.setDirection(-1f, this.body.getDirection().y);
         } else if (input.getKey() == Input.Keys.RIGHT) {
-            this.direction.x = 1f;
+            this.body.setDirection(1f, this.body.getDirection().y);
         } else if (input.getKey() == Input.Keys.DOWN) {
-            this.direction.y = -1f;
+            this.body.setDirection(this.body.getDirection().x, -1f);
         } else if (input.getKey() == Input.Keys.UP) {
-            this.direction.y = 1f;
+            this.body.setDirection(this.body.getDirection().x, 1f);
         }
     }
 }

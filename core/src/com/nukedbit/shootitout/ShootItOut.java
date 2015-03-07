@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.Game;
 import com.nukedbit.core.components.GameComponent;
 import com.nukedbit.core.physics.Environment;
+import com.nukedbit.core.physics.RigidBody;
 import com.nukedbit.shootitout.components.Player;
 import com.nukedbit.shootitout.components.StarLayer;
 import com.nukedbit.core.components.input.KeyboardInput;
@@ -62,7 +63,11 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
                                    80,
                                    80,
                                    new Vector2(100f, 100f),
-                                   environment);
+                                   new RigidBody(new Vector2(0f, 0f),
+                                                 new Vector2(0f, 0f),
+                                                 0.1f,
+                                                 0f,
+                                                 environment));
         input.subscribe(player);
         this.components.add(input);
         this.components.add(player);
@@ -70,9 +75,9 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
     @Override
     public void render() {
-        float delta = Math.min(getDeltaTime(), 1 / 60f) * 2;
+        float dt = Math.min(getDeltaTime(), 1 / 60f) * 2;
 
-        update(delta);
+        update(dt);
 
         graphicsAdapter.getGl20().glClearColor(0, 0, 0, 1);
         graphicsAdapter.getGl20().glClear(GL20.GL_COLOR_BUFFER_BIT);
