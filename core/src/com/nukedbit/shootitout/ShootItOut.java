@@ -3,32 +3,35 @@ package com.nukedbit.shootitout;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.Game;
 import com.nukedbit.core.components.GameComponent;
-import com.nukedbit.core.physics.Environment;
-import com.nukedbit.core.physics.RigidBody;
-import com.nukedbit.shootitout.components.Player;
-import com.nukedbit.shootitout.components.StarLayer;
+import com.nukedbit.core.components.cameras.Camera;
+import com.nukedbit.core.components.cameras.OrthographicCamera;
 import com.nukedbit.core.components.input.KeyboardInput;
 import com.nukedbit.core.graphics.Drawable;
 import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.graphics.ViewPort;
+import com.nukedbit.core.physics.Environment;
+import com.nukedbit.core.physics.RigidBody;
 import com.nukedbit.core.utils.Randomize;
+import com.nukedbit.shootitout.components.Player;
+import com.nukedbit.shootitout.components.StarLayer;
 
 import java.util.ArrayList;
 
 public class ShootItOut extends ApplicationAdapter implements Game, GameComponent, Drawable {
     private GraphicsAdapter graphicsAdapter;
-    private Camera camera;
-    private SpriteBatch spriteBatch;
+
+    private final Randomize random;
+    private final Environment environment;
 
     public ShootItOut() {
+        this.random = new Randomize();
+        this.environment = new Environment(0.1f);
     }
 
     private ArrayList<GameComponent> components = new ArrayList<>();
@@ -44,26 +47,36 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
     @Override
     public void create() {
-        this.camera = new OrthographicCamera(this.getViewPort().getWidth(),
-                                             this.getViewPort().getHeight());
-        this.camera.position.set(this.getViewPort().getWidth() / 2f,
-                                 this.getViewPort().getHeight() / 2f,
-                                 0f);
-        this.camera.update();
-        this.spriteBatch = new SpriteBatch();
-        this.spriteBatch.setProjectionMatrix(camera.combined);
+        Camera camera = buildOrthographicCamera(this.getViewPort());
+
+        this.prepareComponents(camera);
+        this.initialize();
+
         this.graphicsAdapter = new GraphicsAdapter(Gdx.gl,
                                                    new ShapeRenderer(),
-                                                   this.spriteBatch);
-        prepareComponents();
-        initialize(graphicsAdapter);
+                                                   buildSpriteBatch(camera));
+
     }
 
-    private void prepareComponents() {
-        Randomize random = new Randomize();
-        Environment environment = new Environment(0.1f);
-        this.components.add(new StarLayer(this, 500, 50, random));
-        this.components.add(new StarLayer(this, 500, 36, random));
+    private SpriteBatch buildSpriteBatch(Camera camera) {
+        SpriteBatch spriteBatch = new SpriteBatch();
+        spriteBatch.setProjectionMatrix(camera.getViewProjection());
+        return spriteBatch;
+    }
+
+    private Camera buildOrthographicCamera(ViewPort viewPort) {
+        Vector2 position = new Vector2(viewPort.getWidth() / 2f,
+                                       viewPort.getHeight() / 2f);
+        return new OrthographicCamera(this, position);
+    }
+
+    private void prepareComponents(GameComponent... initialComponents) {
+        for (GameComponent component : initialComponents) {
+            this.components.add(component);
+        }
+
+        this.components.add(new StarLayer(this, 500, 50, this.random));
+        this.components.add(new StarLayer(this, 500, 36, this.random));
         KeyboardInput input = new KeyboardInput(this,
                                                 Gdx.input,
                                                 new int[] { Input.Keys.LEFT,
@@ -80,7 +93,7 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
                                                  new Vector2(0f, 0f),
                                                  0.1f,
                                                  0f,
-                                                 environment));
+                                                 this.environment));
         input.subscribe(player);
         this.components.add(input);
         this.components.add(player);
@@ -92,10 +105,10 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
         update(dt);
 
-        graphicsAdapter.getGl20().glClearColor(0, 0, 0, 1);
-        graphicsAdapter.getGl20().glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.graphicsAdapter.getGl20().glClearColor(0, 0, 0, 1);
+        this.graphicsAdapter.getGl20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        render(graphicsAdapter);
+        this.render(graphicsAdapter);
     }
 
     public void update(float delta) {
@@ -105,9 +118,9 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
     }
 
     @Override
-    public void initialize(GraphicsAdapter graphicsAdapter) {
+    public void initialize() {
         for (GameComponent component : this.components) {
-            component.initialize(graphicsAdapter);
+            component.initialize();
         }
     }
 
@@ -125,7 +138,7 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
     public void render(GraphicsAdapter graphicsAdapter) {
         for (GameComponent component : this.components) {
             if (component instanceof Drawable) {
-                ((Drawable)component).render(graphicsAdapter);
+                ((Drawable) component).render(graphicsAdapter);
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.nukedbit.core.components;
 
 import com.nukedbit.core.Game;
-import com.nukedbit.core.graphics.GraphicsAdapter;
 
 import java.util.ArrayList;
 
@@ -18,15 +17,15 @@ public abstract class GameComponentBase implements GameComponent {
         return this.components;
     }
 
-    public void update(float delta) {
+    public void update(float dt) {
         for (GameComponent component : components) {
-            component.update(delta);
+            component.update(dt);
         }
     }
 
-    public void initialize(GraphicsAdapter graphicsAdapter) {
+    public void initialize() {
         for (GameComponent component : components) {
-            component.initialize(graphicsAdapter);
+            component.initialize();
         }
     }
 

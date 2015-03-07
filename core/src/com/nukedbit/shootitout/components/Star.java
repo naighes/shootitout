@@ -33,18 +33,18 @@ public class Star extends DrawableComponentBase {
     }
 
     @Override
-    public void initialize(GraphicsAdapter graphicsAdapter) {
-        super.initialize(graphicsAdapter);
+    public void initialize() {
+        super.initialize();
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
+    public void update(float dt) {
+        super.update(dt);
 
         if (isOutOfScreenReset())
             reset();
         else
-            y = y - (speed * delta);
+            y = y - (speed * dt);
     }
 
     @Override

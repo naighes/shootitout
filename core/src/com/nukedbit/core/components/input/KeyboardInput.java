@@ -3,7 +3,6 @@ package com.nukedbit.core.components.input;
 import com.badlogic.gdx.Input;
 import com.nukedbit.core.Game;
 import com.nukedbit.core.components.GameComponentBase;
-import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.observing.Observable;
 import com.nukedbit.core.observing.Observer;
 
@@ -26,18 +25,18 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
     private final HashSet<Integer> pressed = new HashSet<>();
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
+    public void update(float dt) {
+        super.update(dt);
 
         for (int key : lookup) {
             if (input.isKeyPressed(key) && !pressed.contains(key)) {
                 pressed.add(key);
-                notify(new KeyPressed(key, delta));
+                notify(new KeyPressed(key, dt));
             }
 
             if (!input.isKeyPressed(key) && pressed.contains(key)) {
                 pressed.remove(key);
-                notify(new KeyReleased(key, delta));
+                notify(new KeyReleased(key, dt));
             }
         }
     }
@@ -49,8 +48,8 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
     }
 
     @Override
-    public void initialize(GraphicsAdapter graphicsAdapter) {
-        super.initialize(graphicsAdapter);
+    public void initialize() {
+        super.initialize();
     }
 
     public void subscribe(Observer<KeyEvent> observer) {

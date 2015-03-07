@@ -24,19 +24,19 @@ public class StarLayer extends DrawableComponentBase {
     }
 
     @Override
-    public void initialize(GraphicsAdapter graphicsAdapter) {
+    public void initialize() {
         for (int i = 0; i < starsCount; i++) {
             this.getComponents().add(Star.create(this.getGame(),
                                                  starSpeed,
                                                  random));
         }
 
-        super.initialize(graphicsAdapter);
+        super.initialize();
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
+    public void update(float dt) {
+        super.update(dt);
     }
 
     @Override

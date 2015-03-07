@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+// TODO: it's very "weak".
 public class GraphicsAdapter {
     public GraphicsAdapter(GL20 gl20,
                            ShapeRenderer renderer,

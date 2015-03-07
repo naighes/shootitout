@@ -12,7 +12,7 @@ import com.nukedbit.core.observing.Observer;
 import com.nukedbit.core.physics.RigidBody;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
-    private final float maxThrust = 168.0f;
+    private final float maxThrust = 168.0f; // TODO: initialize by ctor.
 
     private final float height;
     private final float width;
@@ -70,10 +70,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     }
 
     @Override
-    public void initialize(GraphicsAdapter graphicsAdapter) {
+    public void initialize() {
         this.texture = new Texture(Gdx.files.internal(this.texturePath));
 
-        super.initialize(graphicsAdapter);
+        super.initialize();
     }
 
     @Override
