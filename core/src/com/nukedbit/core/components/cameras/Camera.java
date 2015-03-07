@@ -1,11 +1,11 @@
 package com.nukedbit.core.components.cameras;
 
 import com.badlogic.gdx.math.Matrix4;
-import com.nukedbit.core.Game;
+import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.GameComponentBase;
 
 public abstract class Camera extends GameComponentBase {
-    public Camera(Game game) {
+    public Camera(GameBase game) {
         super(game);
     }
 

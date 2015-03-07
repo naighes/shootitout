@@ -1,8 +1,7 @@
 package com.nukedbit.shootitout.components;
 
-import com.nukedbit.core.Game;
 import com.nukedbit.core.components.DrawableComponentBase;
-import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.utils.Randomize;
 
 public class Star extends DrawableComponentBase {
@@ -10,7 +9,7 @@ public class Star extends DrawableComponentBase {
     private float y;
     private final int speed;
 
-    public static Star create(Game game,
+    public static Star create(GameBase game,
                               int speed,
                               Randomize random) {
         final int maxWidth = game.getViewPort().getWidth();
@@ -24,7 +23,7 @@ public class Star extends DrawableComponentBase {
                         speed);
     }
 
-    private Star(Game game, float x, float y, int speed) {
+    private Star(GameBase game, float x, float y, int speed) {
         super(game);
 
         this.x = x;
@@ -48,10 +47,10 @@ public class Star extends DrawableComponentBase {
     }
 
     @Override
-    public void render(GraphicsAdapter graphicsAdapter) {
-        super.render(graphicsAdapter);
+    public void render() {
+        super.render();
 
-        graphicsAdapter.getRenderer().point((int) x, (int) y, 0);
+        this.getGame().getShapeRenderer().point((int) x, (int) y, 0);
     }
 
     private boolean isOutOfScreenReset() {

@@ -1,7 +1,7 @@
 package com.nukedbit.core.components.input;
 
 import com.badlogic.gdx.Input;
-import com.nukedbit.core.Game;
+import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.GameComponentBase;
 import com.nukedbit.core.observing.Observable;
 import com.nukedbit.core.observing.Observer;
@@ -15,7 +15,7 @@ public class KeyboardInput extends GameComponentBase implements Observable<Keybo
 
     private final int[] lookup;
 
-    public KeyboardInput(Game game, Input input, int[] lookup) {
+    public KeyboardInput(GameBase game, Input input, int[] lookup) {
         super(game);
 
         this.input = input;

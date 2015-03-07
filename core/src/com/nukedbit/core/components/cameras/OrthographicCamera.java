@@ -3,14 +3,14 @@ package com.nukedbit.core.components.cameras;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.Game;
+import com.nukedbit.core.components.GameBase;
 
 public class OrthographicCamera extends com.nukedbit.core.components.cameras.Camera {
     private final Vector2 position;
 
     private Camera innerCamera;
 
-    public OrthographicCamera(Game game, Vector2 initialPosition) {
+    public OrthographicCamera(GameBase game, Vector2 initialPosition) {
         super(game);
 
         this.position = initialPosition;

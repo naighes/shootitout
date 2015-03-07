@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.Game;
 import com.nukedbit.core.components.DrawableComponentBase;
+import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.input.KeyboardInput;
-import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.observing.Observer;
 import com.nukedbit.core.physics.RigidBody;
 
@@ -22,7 +21,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     private Vector2 position;
     private final RigidBody body;
 
-    public Player(Game game,
+    public Player(GameBase game,
                   String texturePath,
                   float width,
                   float height,
@@ -39,17 +38,17 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     }
 
     @Override
-    public void render(GraphicsAdapter graphicsAdapter) {
-        graphicsAdapter.getSpriteBatch().begin();
-        graphicsAdapter.getSpriteBatch()
-                       .draw(texture,
-                             this.position.x,
-                             this.position.y,
-                             this.width,
-                             this.height);
-        graphicsAdapter.getSpriteBatch().end();
+    public void render() {
+        this.getGame().getSpriteBatch().begin();
+        this.getGame().getSpriteBatch()
+                      .draw(texture,
+                              this.position.x,
+                              this.position.y,
+                              this.width,
+                              this.height);
+        this.getGame().getSpriteBatch().end();
 
-        super.render(graphicsAdapter);
+        super.render();
     }
 
     private final Vector2 zero = new Vector2(0f, 0f);

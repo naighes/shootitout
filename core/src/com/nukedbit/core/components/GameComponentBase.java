@@ -1,13 +1,11 @@
 package com.nukedbit.core.components;
 
-import com.nukedbit.core.Game;
-
 import java.util.ArrayList;
 
 public abstract class GameComponentBase implements GameComponent {
-    private final Game game;
+    private final GameBase game;
 
-    protected GameComponentBase(Game game) {
+    protected GameComponentBase(GameBase game) {
         this.game = game;
     }
 
@@ -29,7 +27,7 @@ public abstract class GameComponentBase implements GameComponent {
         }
     }
 
-    public Game getGame() {
+    public GameBase getGame() {
         return this.game;
     }
 }

@@ -2,9 +2,8 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.core.Game;
 import com.nukedbit.core.components.DrawableComponentBase;
-import com.nukedbit.core.graphics.GraphicsAdapter;
+import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.utils.Randomize;
 
 public class StarLayer extends DrawableComponentBase {
@@ -12,7 +11,7 @@ public class StarLayer extends DrawableComponentBase {
     private final int starSpeed;
     private final Randomize random;
 
-    public StarLayer(Game game,
+    public StarLayer(GameBase game,
                      int starsCount,
                      int starSpeed,
                      Randomize random) {
@@ -40,12 +39,12 @@ public class StarLayer extends DrawableComponentBase {
     }
 
     @Override
-    public void render(GraphicsAdapter graphicsAdapter) {
-        graphicsAdapter.getRenderer().begin(ShapeRenderer.ShapeType.Point);
-        graphicsAdapter.getRenderer().setColor(Color.WHITE);
+    public void render() {
+        this.getGame().getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
+        this.getGame().getShapeRenderer().setColor(Color.WHITE);
 
-        super.render(graphicsAdapter);
+        super.render();
 
-        graphicsAdapter.getRenderer().end();
+        this.getGame().getShapeRenderer().end();
     }
 }
