@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.Game;
 import com.nukedbit.core.components.GameComponent;
+import com.nukedbit.core.physics.Environment;
 import com.nukedbit.shootitout.components.Player;
 import com.nukedbit.shootitout.components.StarLayer;
 import com.nukedbit.core.components.input.KeyboardInput;
@@ -47,6 +48,7 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
     private void prepareComponents() {
         Randomize random = new Randomize();
+        Environment environment = new Environment(0.1f);
         this.components.add(new StarLayer(this, 500, 50, random));
         this.components.add(new StarLayer(this, 500, 36, random));
         KeyboardInput input = new KeyboardInput(this,
@@ -55,7 +57,12 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
                                                             Input.Keys.RIGHT,
                                                             Input.Keys.UP,
                                                             Input.Keys.DOWN });
-        Player player = new Player(this, "player.png", 80, 80, new Vector2(100f, 100f));
+        Player player = new Player(this,
+                                   "player.png",
+                                   80,
+                                   80,
+                                   new Vector2(100f, 100f),
+                                   environment);
         input.subscribe(player);
         this.components.add(input);
         this.components.add(player);

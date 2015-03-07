@@ -9,11 +9,11 @@ import com.nukedbit.core.components.DrawableComponentBase;
 import com.nukedbit.core.components.input.KeyboardInput;
 import com.nukedbit.core.graphics.GraphicsAdapter;
 import com.nukedbit.core.observing.Observer;
+import com.nukedbit.core.physics.Environment;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
     private final float mass = 0.1f;
     private final float maxThrust = 168.0f;
-    private final float airResistance = -0.1f;
 
     private final float height;
     private final float width;
@@ -21,6 +21,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     private Texture texture;
     private Vector2 position;
+    private final Environment environment;
     private Vector2 direction = new Vector2(0f, 0f);
     private float thrust = 0f;
 
@@ -28,14 +29,16 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
                   String texturePath,
                   float width,
                   float height,
-                  Vector2 position)
+                  Vector2 initialPosition,
+                  Environment environment)
     {
         super(game);
 
         this.texturePath = texturePath;
         this.width = width;
         this.height = height;
-        this.position = position;
+        this.position = initialPosition;
+        this.environment = environment;
     }
 
     @Override
@@ -65,9 +68,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         Vector2 acceleration = new Vector2(this.direction.x * this.thrust / this.mass,
                                            this.direction.y * this.thrust / this.mass);
         this.velocity = calculateVelocity(acceleration, this.velocity, delta);
-
-        Vector2 inverse = new Vector2(this.velocity.x * airResistance, this.velocity.y * airResistance);
-        this.velocity.add(inverse);
+        this.velocity.add(this.environment.calculateDragVelocity(this.velocity));
         this.position.add(this.velocity);
     }
 
