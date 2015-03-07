@@ -33,9 +33,7 @@ public class MainGame extends GameBase {
 
     @Override
     public void initialize() {
-        Camera camera = buildOrthographicCamera(this.getViewPort());
-
-        this.prepareComponents(camera);
+        this.prepareComponents();
 
         super.initialize();
     }
@@ -46,17 +44,12 @@ public class MainGame extends GameBase {
         return new OrthographicCamera(this, position);
     }
 
-    //private SpriteBatch buildSpriteBatch(Camera camera) {
-    //    SpriteBatch spriteBatch = new SpriteBatch();
-    //    spriteBatch.setProjectionMatrix(camera.getViewProjection());
-    //    return spriteBatch;
-    //}
-
     private void prepareComponents(GameComponent... initialComponents) {
         for (GameComponent component : initialComponents) {
             this.getComponents().add(component);
         }
 
+        this.setActiveCamera(buildOrthographicCamera(this.getViewPort()));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
         this.getComponents().add(new StarLayer(this, 500, 36, this.random));
         KeyboardInput input = new KeyboardInput(this,

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.nukedbit.core.components.cameras.Camera;
 import com.nukedbit.core.graphics.Drawable;
 import com.nukedbit.core.graphics.ViewPort;
 
@@ -42,6 +43,8 @@ public abstract class GameBase implements GameComponent, Drawable {
 
     @Override
     public void update(float delta) {
+        this.spriteBatch.setProjectionMatrix(this.getActiveCamera().getViewProjection());
+
         for (GameComponent component : this.getComponents()) {
             component.update(delta);
         }
@@ -78,5 +81,27 @@ public abstract class GameBase implements GameComponent, Drawable {
 
     public ShapeRenderer getShapeRenderer() {
         return shapeRenderer;
+    }
+
+    public Camera getActiveCamera() {
+        // TODO: pretty bad!
+        for (GameComponent component : this.components) {
+            if (component instanceof Camera) {
+                return (Camera) component;
+            }
+        }
+
+        return null;
+    }
+
+    public void setActiveCamera(Camera camera) {
+        // TODO: pretty bad!
+        Camera activeCamera = getActiveCamera();
+
+        if (this.components.contains(activeCamera)) {
+            this.components.remove(activeCamera);
+        }
+
+        this.components.add(0, camera);
     }
 }
