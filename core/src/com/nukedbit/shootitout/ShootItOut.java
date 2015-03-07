@@ -3,7 +3,9 @@ package com.nukedbit.shootitout;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 
 public class ShootItOut extends ApplicationAdapter implements Game, GameComponent, Drawable {
     private GraphicsAdapter graphicsAdapter;
+    private Camera camera;
+    private SpriteBatch spriteBatch;
 
     public ShootItOut() {
     }
@@ -40,9 +44,17 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
 
     @Override
     public void create() {
+        this.camera = new OrthographicCamera(this.getViewPort().getWidth(),
+                                             this.getViewPort().getHeight());
+        this.camera.position.set(this.getViewPort().getWidth() / 2f,
+                                 this.getViewPort().getHeight() / 2f,
+                                 0f);
+        this.camera.update();
+        this.spriteBatch = new SpriteBatch();
+        this.spriteBatch.setProjectionMatrix(camera.combined);
         this.graphicsAdapter = new GraphicsAdapter(Gdx.gl,
                                                    new ShapeRenderer(),
-                                                   new SpriteBatch());
+                                                   this.spriteBatch);
         prepareComponents();
         initialize(graphicsAdapter);
     }
@@ -62,7 +74,8 @@ public class ShootItOut extends ApplicationAdapter implements Game, GameComponen
                                    "player.png",
                                    80,
                                    80,
-                                   new Vector2(100f, 100f),
+                                   new Vector2(getGame().getViewPort().getWidth() / 2f - 40f,
+                                               getGame().getViewPort().getHeight() / 4f - 40f),
                                    new RigidBody(new Vector2(0f, 0f),
                                                  new Vector2(0f, 0f),
                                                  0.1f,
