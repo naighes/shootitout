@@ -74,7 +74,9 @@ public class MainGame extends GameBase {
                                                  new Vector2(0f, 0f),
                                                  0.1f,
                                                  0f,
-                                                 this.environment));
+                                                 this.environment),
+                                   0.15f,
+                                   420.0f);
         input.subscribe(player);
         this.getComponents().add(input);
         this.getComponents().add(player);

@@ -33,7 +33,6 @@ public class OrthographicCamera extends com.nukedbit.core.components.cameras.Cam
 
     private void updatePosition() {
         this.innerCamera.translate(this.position.x, this.position.y, 0f);
-        this.innerCamera.zoom = 5.8f;
         this.innerCamera.update();
     }
 
