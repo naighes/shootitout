@@ -6,6 +6,7 @@ import com.nukedbit.core.utils.Randomize;
 
 public class Star extends DrawableComponentBase {
     private final float x;
+    private final float glowColor;
     private float y;
     private final float color;
     private final int speed;
@@ -31,6 +32,7 @@ public class Star extends DrawableComponentBase {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.glowColor = color / 2f;
         this.speed = speed;
     }
 
@@ -55,6 +57,12 @@ public class Star extends DrawableComponentBase {
 
         this.getGame().getShapeRenderer().setColor(this.color, this.color, this.color, 1.0f);
         this.getGame().getShapeRenderer().point((int) x, (int) y, 0);
+
+        this.getGame().getShapeRenderer().setColor(this.glowColor, this.glowColor, this.glowColor, 1.0f);
+        this.getGame().getShapeRenderer().point((int) x - 1, (int) y, 0);
+        this.getGame().getShapeRenderer().point((int) x + 1, (int) y, 0);
+        this.getGame().getShapeRenderer().point((int) x, (int) y - 1, 0);
+        this.getGame().getShapeRenderer().point((int) x, (int) y + 1, 0);
     }
 
     private boolean isOutOfScreenReset() {
