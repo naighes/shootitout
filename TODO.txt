@@ -1,0 +1,1 @@
+ - Making use of libgdx's Sprite class.
