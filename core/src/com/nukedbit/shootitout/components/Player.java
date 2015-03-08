@@ -3,20 +3,23 @@ package com.nukedbit.shootitout.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.components.DrawableComponentBase;
 import com.nukedbit.core.components.GameBase;
+import com.nukedbit.core.components.GameComponent;
 import com.nukedbit.core.components.input.KeyboardInput;
 import com.nukedbit.core.observing.Observer;
 import com.nukedbit.core.physics.RigidBody;
 import com.nukedbit.core.physics.WorldObject;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
-    private final float maxThrust = 168.0f; // TODO: initialize by ctor.
 
     private final float height;
     private final float width;
     private final String texturePath;
+    private final float scale;
+    private final float maxThrust;
 
     private Texture texture;
     private Vector2 position;
@@ -36,11 +39,14 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.height = height;
         this.position = initialPosition;
         this.body = body;
+        scale = 0.2f;
+        maxThrust = 1040.0f;
     }
 
     @Override
     public void render() {
         this.getGame().getSpriteBatch().begin();
+        this.getGame().getSpriteBatch().setTransformMatrix(getTransformMatrix());
         this.getGame().getSpriteBatch()
                       .draw(texture,
                             this.position.x,
@@ -50,6 +56,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.getGame().getSpriteBatch().end();
 
         super.render();
+    }
+
+    private Matrix4 getTransformMatrix() {
+        return new Matrix4().idt().scl(scale);
     }
 
     private final Vector2 zero = new Vector2(0f, 0f);
@@ -95,7 +105,18 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
             this.body.setDirection(this.body.getDirection().x, 0f);
         } else if (input.getKey() == Input.Keys.UP) {
             this.body.setDirection(this.body.getDirection().x, 0f);
+        } else if (input.getKey() == Input.Keys.SPACE) {
+            this.shoot();
         }
+    }
+
+    private void shoot() {
+        GameComponent bullet = new Bullet(this.getGame(),
+                                          new Vector2(this.getPosition().x, this.getPosition().y),
+                                          64f,
+                                          64f);
+        bullet.initialize(); // TODO: not good doing that here.
+        this.getGame().getComponents().add(bullet);
     }
 
     public void notify(KeyboardInput.KeyPressed input) {

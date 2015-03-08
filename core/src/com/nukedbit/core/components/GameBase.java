@@ -29,7 +29,9 @@ public abstract class GameBase implements GameComponent, Drawable {
     private ArrayList<GameComponent> components = new ArrayList<>();
 
     public void render() {
-        for (GameComponent component : this.getComponents()) {
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            GameComponent component = this.getComponents().get(i);
+
             if (component instanceof Drawable) {
                 ((Drawable) component).render();
             }
@@ -43,14 +45,14 @@ public abstract class GameBase implements GameComponent, Drawable {
     public void update(float delta) {
         this.getSpriteBatch().setProjectionMatrix(this.getActiveCamera().getViewProjection());
 
-        for (GameComponent component : this.getComponents()) {
-            component.update(delta);
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            this.getComponents().get(i).update(delta);
         }
     }
 
     public void initialize() {
-        for (GameComponent component : this.getComponents()) {
-            component.initialize();
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            this.getComponents().get(i).initialize();
         }
     }
 
@@ -80,7 +82,9 @@ public abstract class GameBase implements GameComponent, Drawable {
 
     public Camera getActiveCamera() {
         // TODO: pretty bad!
-        for (GameComponent component : this.components) {
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            GameComponent component = this.getComponents().get(i);
+
             if (component instanceof Camera) {
                 return (Camera) component;
             }
@@ -93,10 +97,12 @@ public abstract class GameBase implements GameComponent, Drawable {
         // TODO: pretty bad!
         Camera activeCamera = getActiveCamera();
 
-        if (this.components.contains(activeCamera)) {
-            this.components.remove(activeCamera);
+        int index = this.getComponents().indexOf(activeCamera);
+
+        if (index != -1) {
+            this.getComponents().remove(index);
         }
 
-        this.components.add(0, camera);
+        this.getComponents().add(0, camera);
     }
 }

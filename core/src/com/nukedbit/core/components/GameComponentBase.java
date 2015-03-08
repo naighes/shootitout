@@ -16,14 +16,14 @@ public abstract class GameComponentBase implements GameComponent {
     }
 
     public void update(float dt) {
-        for (GameComponent component : components) {
-            component.update(dt);
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            this.getComponents().get(i).update(dt);
         }
     }
 
     public void initialize() {
-        for (GameComponent component : components) {
-            component.initialize();
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            this.getComponents().get(i).initialize();
         }
     }
 

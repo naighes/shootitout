@@ -44,7 +44,9 @@ public class MainGame extends GameBase {
 
     // NOTE: added for experimenting with camera.
     private WorldObject getPlayer() {
-        for (GameComponent component : this.getComponents()) {
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            GameComponent component = this.getComponents().get(i);
+
             if (component instanceof Player) {
                 return (WorldObject) component;
             }
@@ -62,12 +64,14 @@ public class MainGame extends GameBase {
                                                 new int[] { Input.Keys.LEFT,
                                                             Input.Keys.RIGHT,
                                                             Input.Keys.UP,
-                                                            Input.Keys.DOWN });
+                                                            Input.Keys.DOWN,
+                                                            Input.Keys.SPACE });
         Player player = new Player(this,
                                    "player.png",
-                                   80,
-                                   80,
-                                   new Vector2(-40f, -40f - this.getGame().getViewPort().getHeight() / 4f),
+                                   558f,
+                                   368f,
+                                   new Vector2(-558f / 2f,
+                                               ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
                                    new RigidBody(new Vector2(0f, 0f),
                                                  new Vector2(0f, 0f),
                                                  0.1f,
