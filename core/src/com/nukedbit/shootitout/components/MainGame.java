@@ -67,7 +67,7 @@ public class MainGame extends GameBase {
                                                             Input.Keys.DOWN,
                                                             Input.Keys.SPACE });
         Player player = new Player(this,
-                                   "PlayerDefaultAnimation.png",
+                                   "Player_With_Engine_Fire.png",
                                    new Vector2(-558f / 2f,
                                                ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
                                    new RigidBody(new Vector2(0f, 0f),

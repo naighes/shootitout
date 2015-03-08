@@ -19,8 +19,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     private Vector2 position;
     private final RigidBody body;
     private Sprite sprite;
-    private final int spriteWidth = 268;
-    private final int spriteHeight = 189;
+    private final float spriteWidth = 268f;
+    private final float spriteHeight = 324.33f;
 
 
     private final Vector2 zero = new Vector2(0f, 0f);

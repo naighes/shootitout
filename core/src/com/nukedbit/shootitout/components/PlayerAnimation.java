@@ -23,13 +23,17 @@ public class PlayerAnimation {
     private final String texturePath;
     private Animation defaultAnimation;
     private final int FRAME_COLS = 1;
-    private final int FRAME_ROWS = 16;
+    private final int FRAME_ROWS = 15;
     private Texture animationTexture;
     private float stateTime = 0f;
 
     public void initialize() {
         this.animationTexture = new Texture(Gdx.files.internal(this.texturePath));
         TextureRegion[][] tmp = TextureRegion.split(animationTexture, animationTexture.getWidth() / FRAME_COLS, animationTexture.getHeight() / FRAME_ROWS);
+        defaultAnimation = new Animation(0.040f, getAnimationFrames(tmp));
+    }
+
+    private TextureRegion[] getAnimationFrames(TextureRegion[][] tmp) {
         TextureRegion[] animationFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
 
         int index = 0;
@@ -38,7 +42,7 @@ public class PlayerAnimation {
                 animationFrames[index++] = tmp[i][j];
             }
         }
-        defaultAnimation = new Animation(0.040f, animationFrames);
+        return animationFrames;
     }
 
     public TextureRegion getCurrentFrame(float deltaTime) {
