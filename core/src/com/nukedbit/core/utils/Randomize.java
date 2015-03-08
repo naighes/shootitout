@@ -9,7 +9,11 @@ public class Randomize {
         random = new Random();
     }
 
-    public int Next(int min, int max) {
+    public int next(int min, int max) {
         return random.nextInt((max - min) + 1) - min;
+    }
+
+    public float next() {
+        return random.nextFloat();
     }
 }

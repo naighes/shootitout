@@ -1,6 +1,5 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.nukedbit.core.components.DrawableComponentBase;
 import com.nukedbit.core.components.GameBase;
@@ -41,7 +40,6 @@ public class StarLayer extends DrawableComponentBase {
     @Override
     public void render() {
         this.getGame().getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
-        this.getGame().getShapeRenderer().setColor(Color.WHITE);
 
         super.render();
 

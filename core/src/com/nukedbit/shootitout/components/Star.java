@@ -7,6 +7,7 @@ import com.nukedbit.core.utils.Randomize;
 public class Star extends DrawableComponentBase {
     private final float x;
     private float y;
+    private final float color;
     private final int speed;
 
     public static Star create(GameBase game,
@@ -18,16 +19,18 @@ public class Star extends DrawableComponentBase {
         final int minHeight = 1;
 
         return new Star(game,
-                        random.Next(minWidth, maxWidth),
-                        random.Next(minHeight, maxHeight),
+                        random.next(minWidth, maxWidth),
+                        random.next(minHeight, maxHeight),
+                        random.next(),
                         speed);
     }
 
-    private Star(GameBase game, float x, float y, int speed) {
+    private Star(GameBase game, float x, float y, float color, int speed) {
         super(game);
 
         this.x = x;
         this.y = y;
+        this.color = color;
         this.speed = speed;
     }
 
@@ -50,6 +53,7 @@ public class Star extends DrawableComponentBase {
     public void render() {
         super.render();
 
+        this.getGame().getShapeRenderer().setColor(this.color, this.color, this.color, 1.0f);
         this.getGame().getShapeRenderer().point((int) x, (int) y, 0);
     }
 
