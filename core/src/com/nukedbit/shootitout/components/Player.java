@@ -45,6 +45,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     public void initialize() {
         this.texture = new Texture(Gdx.files.internal(this.texturePath));
         this.sprite = new Sprite(this.texture);
+        this.sprite.setSize(this.sprite.getWidth() * scale,
+                            this.sprite.getHeight() * scale);
 
         super.initialize();
     }
@@ -60,7 +62,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         }
 
         this.body.update(dt);
-        this.sprite.setScale(scale);
         this.position.add(this.body.getVelocity());
         this.sprite.setPosition(this.position.x, this.position.y);
     }
