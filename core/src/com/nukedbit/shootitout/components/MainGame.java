@@ -67,7 +67,7 @@ public class MainGame extends GameBase {
                                                             Input.Keys.DOWN,
                                                             Input.Keys.SPACE });
         Player player = new Player(this,
-                                   "player.png",
+                                   "PlayerDefaultAnimation.png",
                                    new Vector2(-558f / 2f,
                                                ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
                                    new RigidBody(new Vector2(0f, 0f),
@@ -75,7 +75,7 @@ public class MainGame extends GameBase {
                                                  0.1f,
                                                  0f,
                                                  this.environment),
-                                   0.15f,
+                                   .7f,
                                    420.0f);
         input.subscribe(player);
         this.getComponents().add(input);
