@@ -1,11 +1,13 @@
 # NOTES
 
+**PROBLEM**:
 
-PROBLEMA:
-	di default le risorse inseriter in android/assets non vengono caricate dall' app desktop.
+by default resources within _android/assets_ are not loaded by desktop application.
 
-SOLUZIONE: 
-	Temporanea (altre soluzioni con symlink,specifiche per os)
-	Dal menu Run - > Edit Configurations -> DesktopLauncher 
-	settare working directory a ....shootitout/android/assets
+**TEMPORARY SOLUTION**: 
+
+"Run" -> "Edit Configurations" -> "DesktopLauncher"
+
+set working directory to _android/assets_.
+(other solutions with _symlink_)
 
