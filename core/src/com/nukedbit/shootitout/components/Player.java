@@ -9,8 +9,9 @@ import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.input.KeyboardInput;
 import com.nukedbit.core.observing.Observer;
 import com.nukedbit.core.physics.RigidBody;
+import com.nukedbit.core.physics.WorldObject;
 
-public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
+public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust = 168.0f; // TODO: initialize by ctor.
 
     private final float height;
@@ -42,10 +43,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.getGame().getSpriteBatch().begin();
         this.getGame().getSpriteBatch()
                       .draw(texture,
-                              this.position.x,
-                              this.position.y,
-                              this.width,
-                              this.height);
+                            this.position.x,
+                            this.position.y,
+                            this.width,
+                            this.height);
         this.getGame().getSpriteBatch().end();
 
         super.render();
@@ -64,7 +65,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         }
 
         this.body.update(dt);
-
         this.position.add(this.body.getVelocity());
     }
 
@@ -108,5 +108,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         } else if (input.getKey() == Input.Keys.UP) {
             this.body.setDirection(this.body.getDirection().x, 1f);
         }
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return this.position;
     }
 }

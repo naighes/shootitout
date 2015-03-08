@@ -9,12 +9,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.GameComponent;
-import com.nukedbit.core.components.cameras.Camera;
 import com.nukedbit.core.components.cameras.OrthographicCamera;
 import com.nukedbit.core.components.input.KeyboardInput;
-import com.nukedbit.core.graphics.ViewPort;
 import com.nukedbit.core.physics.Environment;
 import com.nukedbit.core.physics.RigidBody;
+import com.nukedbit.core.physics.WorldObject;
 import com.nukedbit.core.utils.Randomize;
 
 public class MainGame extends GameBase {
@@ -38,18 +37,24 @@ public class MainGame extends GameBase {
         super.initialize();
     }
 
-    private Camera buildOrthographicCamera(ViewPort viewPort) {
-        Vector2 position = new Vector2(viewPort.getWidth() / 2f,
-                                       viewPort.getHeight() / 2f);
-        return new OrthographicCamera(this, position);
+    @Override
+    public void update(float dt) {
+        super.update(dt);
     }
 
-    private void prepareComponents(GameComponent... initialComponents) {
-        for (GameComponent component : initialComponents) {
-            this.getComponents().add(component);
+    // NOTE: added for experimenting with camera.
+    private WorldObject getPlayer() {
+        for (GameComponent component : this.getComponents()) {
+            if (component instanceof Player) {
+                return (WorldObject) component;
+            }
         }
 
-        this.setActiveCamera(buildOrthographicCamera(this.getViewPort()));
+        return null;
+    }
+
+    private void prepareComponents() {
+        this.setActiveCamera(new OrthographicCamera(this, new Vector2(0f, 0f)));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
         this.getComponents().add(new StarLayer(this, 500, 36, this.random));
         KeyboardInput input = new KeyboardInput(this,
@@ -62,8 +67,7 @@ public class MainGame extends GameBase {
                                    "player.png",
                                    80,
                                    80,
-                                   new Vector2(this.getViewPort().getWidth() / 2f - 40f,
-                                               this.getViewPort().getHeight() / 4f - 40f),
+                                   new Vector2(-40f, -40f - this.getGame().getViewPort().getHeight() / 4f),
                                    new RigidBody(new Vector2(0f, 0f),
                                                  new Vector2(0f, 0f),
                                                  0.1f,

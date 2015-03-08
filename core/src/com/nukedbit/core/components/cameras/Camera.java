@@ -1,12 +1,17 @@
 package com.nukedbit.core.components.cameras;
 
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.components.GameBase;
 import com.nukedbit.core.components.GameComponentBase;
 
 public abstract class Camera extends GameComponentBase {
-    public Camera(GameBase game) {
+    protected Vector2 position;
+
+    public Camera(GameBase game, Vector2 initialPosition) {
         super(game);
+
+        this.position = initialPosition;
     }
 
     @Override
@@ -20,4 +25,13 @@ public abstract class Camera extends GameComponentBase {
     }
 
     public abstract Matrix4 getViewProjection();
+
+    public void setPosition(Vector2 value) {
+        this.position = value;
+    }
+
+    public void setPosition(float x, float y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
 }

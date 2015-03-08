@@ -6,14 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.core.components.GameBase;
 
 public class OrthographicCamera extends com.nukedbit.core.components.cameras.Camera {
-    private final Vector2 position;
+    private final Vector2 position = new Vector2(0f, 0f);
 
     private Camera innerCamera;
 
     public OrthographicCamera(GameBase game, Vector2 initialPosition) {
-        super(game);
-
-        this.position = initialPosition;
+        super(game, initialPosition);
     }
 
     @Override

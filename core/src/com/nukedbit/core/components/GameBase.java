@@ -28,7 +28,6 @@ public abstract class GameBase implements GameComponent, Drawable {
 
     private ArrayList<GameComponent> components = new ArrayList<>();
 
-    @Override
     public void render() {
         for (GameComponent component : this.getComponents()) {
             if (component instanceof Drawable) {
@@ -41,28 +40,24 @@ public abstract class GameBase implements GameComponent, Drawable {
         return new ViewPort(this.getGraphics().getWidth(), this.getGraphics().getHeight());
     }
 
-    @Override
     public void update(float delta) {
-        this.spriteBatch.setProjectionMatrix(this.getActiveCamera().getViewProjection());
+        this.getSpriteBatch().setProjectionMatrix(this.getActiveCamera().getViewProjection());
 
         for (GameComponent component : this.getComponents()) {
             component.update(delta);
         }
     }
 
-    @Override
     public void initialize() {
         for (GameComponent component : this.getComponents()) {
             component.initialize();
         }
     }
 
-    @Override
     public ArrayList<GameComponent> getComponents() {
         return this.components;
     }
 
-    @Override
     public GameBase getGame() {
         return this;
     }
