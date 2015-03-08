@@ -11,18 +11,11 @@ public class Bullet extends DrawableComponentBase {
 
     private Texture texture;
     private Vector2 position;
-    private final float width;
-    private final float height;
 
-    public Bullet(GameBase game,
-                  Vector2 initialPosition,
-                  float width,
-                  float height) {
+    public Bullet(GameBase game, Vector2 initialPosition) {
         super(game);
 
         this.position = initialPosition;
-        this.width = width;
-        this.height = height;
         this.texturePath = "laser.png";
     }
 
@@ -45,8 +38,8 @@ public class Bullet extends DrawableComponentBase {
                 .draw(texture,
                       this.position.x,
                       this.position.y,
-                      this.width,
-                      this.height);
+                      this.texture.getWidth(),
+                      this.texture.getHeight());
         this.getGame().getSpriteBatch().end();
 
         super.render();

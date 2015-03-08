@@ -13,8 +13,6 @@ import com.nukedbit.core.physics.RigidBody;
 import com.nukedbit.core.physics.WorldObject;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
-    private final float height;
-    private final float width;
     private final String texturePath;
     private final float maxThrust;
 
@@ -24,16 +22,12 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     public Player(GameBase game,
                   String texturePath,
-                  float width,
-                  float height,
                   Vector2 initialPosition,
                   RigidBody body)
     {
         super(game);
 
         this.texturePath = texturePath;
-        this.width = width;
-        this.height = height;
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = 1040.0f;
@@ -46,8 +40,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
                       .draw(texture,
                             this.position.x,
                             this.position.y,
-                            this.width,
-                            this.height);
+                            this.texture.getWidth(),
+                            this.texture.getHeight());
         this.getGame().getSpriteBatch().end();
 
         super.render();
@@ -103,9 +97,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     private void shoot() {
         GameComponent bullet = new Bullet(this.getGame(),
-                                          new Vector2(this.getPosition().x, this.getPosition().y),
-                                          64f,
-                                          64f);
+                                          new Vector2(this.getPosition().x, this.getPosition().y));
         bullet.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
     }

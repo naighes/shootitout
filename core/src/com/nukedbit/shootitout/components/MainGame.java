@@ -68,8 +68,6 @@ public class MainGame extends GameBase {
                                                             Input.Keys.SPACE });
         Player player = new Player(this,
                                    "player.png",
-                                   558f,
-                                   368f,
                                    new Vector2(-558f / 2f,
                                                ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
                                    new RigidBody(new Vector2(0f, 0f),
