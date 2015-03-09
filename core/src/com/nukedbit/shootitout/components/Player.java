@@ -21,8 +21,6 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     private final Vector2 zero = new Vector2(0f, 0f);
 
     private Vector2 position;
-    private final float width = 268f; // TODO: should be "injected".
-    private final float height = 324.33f; // TODO: should be "injected".
 
     private Animation animation;
     private final float frameDuration;
@@ -51,7 +49,6 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         super.initialize();
 
         this.animation = new Animation(frameDuration, this.getFrames(this.frames));
-        this.innerSprite.setSize(this.width * this.scale, this.height * this.scale);
     }
 
     @Override
@@ -64,8 +61,13 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
             this.body.setScalarForce(this.maxThrust);
         }
 
-        this.innerSprite.setRegion(this.getCurrentFrame(dt));
         this.body.update(dt);
+
+        TextureRegion frame = this.getCurrentFrame(dt);
+        this.innerSprite.setRegion(frame);
+        this.innerSprite.setSize(frame.getRegionWidth() * this.scale,
+                                 frame.getRegionHeight() * this.scale);
+
         this.position.add(this.body.getVelocity());
         this.innerSprite.setPosition(this.position.x, this.position.y);
     }
