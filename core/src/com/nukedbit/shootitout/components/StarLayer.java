@@ -44,6 +44,6 @@ public class StarLayer extends DrawableComponentBase {
 
         super.render();
 
-        this.getGame().getShapeRenderer().end(); 
+        this.getGame().getShapeRenderer().end();
     }
 }
