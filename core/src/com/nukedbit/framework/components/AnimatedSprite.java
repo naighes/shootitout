@@ -22,19 +22,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AnimatedSprite extends Sprite {
     private final int frameColumns;
     private final int frameRows;
+    private float frameDuration;
     private Animation animation;
 
-    public AnimatedSprite(GameBase game, String texturePath, int frameColumns,int frameRows) {
+    public AnimatedSprite(GameBase game, String texturePath, int frameColumns, int frameRows, float frameDuration) {
         super(game, texturePath);
         this.frameColumns = frameColumns;
         this.frameRows = frameRows;
+        this.frameDuration = frameDuration;
     }
 
     @Override
     public void initialize() {
         this.texture = new Texture(Gdx.files.internal(this.texturePath));
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() / frameColumns, texture.getHeight() / frameRows);
-        animation = new Animation(0.040f, getAnimationFrames(tmp));
+        animation = new Animation(frameDuration, getAnimationFrames(tmp));
         this.innerSprite = new com.badlogic.gdx.graphics.g2d.Sprite(getCurrentFrame(0));
     }
 

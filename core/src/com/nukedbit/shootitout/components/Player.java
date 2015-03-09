@@ -26,7 +26,7 @@ public class Player extends AnimatedSprite implements Observer<KeyboardInput.Key
                   RigidBody body,
                   float scale,
                   float maxThrust) {
-        super(game, texturePath, 1, 15);
+        super(game, texturePath, 1, 15, 0.040f);
 
         this.position = initialPosition;
         this.body = body;
