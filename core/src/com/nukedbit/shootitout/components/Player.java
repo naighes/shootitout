@@ -37,7 +37,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     @Override
     public void initialize() {
         super.initialize();
-        
+
         this.innerSprite.setSize(this.innerSprite.getWidth() * scale,
                                  this.innerSprite.getHeight() * scale);
     }

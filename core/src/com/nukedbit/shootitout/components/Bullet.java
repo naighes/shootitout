@@ -1,47 +1,42 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.Sprite;
+import com.nukedbit.framework.physics.WorldObject;
 
-public class Bullet extends DrawableComponentBase {
-    private final String texturePath;
-
-    private Texture texture;
+public class Bullet extends Sprite implements WorldObject {
     private Vector2 position;
 
     public Bullet(GameBase game, Vector2 initialPosition) {
-        super(game);
+        super(game, "laser.png");
 
         this.position = initialPosition;
-        this.texturePath = "laser.png";
     }
 
     @Override
     public void initialize() {
         super.initialize();
 
-        this.texture = new Texture(Gdx.files.internal(this.texturePath));
+        this.innerSprite.setSize(this.innerSprite.getWidth() * 0.2f,
+                                 this.innerSprite.getHeight() * 0.2f);
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
+
+        this.position.add(0f, 9.8f);
+        this.innerSprite.setPosition(this.position.x, this.position.y);
     }
 
     @Override
     public void render() {
-        this.getGame().getSpriteBatch().begin();
-        this.getGame().getSpriteBatch()
-                .draw(texture,
-                      this.position.x,
-                      this.position.y,
-                      this.texture.getWidth(),
-                      this.texture.getHeight());
-        this.getGame().getSpriteBatch().end();
-
         super.render();
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return this.position;
     }
 }
