@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Sprite extends DrawableComponentBase {
     protected com.badlogic.gdx.graphics.g2d.Sprite innerSprite;
-    private final String texturePath;
+    protected final String texturePath;
 
     protected Texture texture;
 

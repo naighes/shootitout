@@ -2,22 +2,20 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.nukedbit.framework.components.AnimatedSprite;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
 import com.nukedbit.framework.components.input.KeyboardInput;
-import com.nukedbit.framework.components.Sprite;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.physics.WorldObject;
 
-public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
+public class Player extends AnimatedSprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
-    private final String texturePath;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
 
-    private PlayerAnimation playerAnimation;
     private Vector2 position;
     private final float spriteOriginalWidth = 268f;
     private final float spriteOriginalHeight = 324.33f;
@@ -27,11 +25,9 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
                   Vector2 initialPosition,
                   RigidBody body,
                   float scale,
-                  float maxThrust)
-    {
-        super(game, texturePath);
+                  float maxThrust) {
+        super(game, texturePath, 1, 15);
 
-        this.texturePath = texturePath;
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = maxThrust;
@@ -42,10 +38,8 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     public void initialize() {
         super.initialize();
 
-        this.playerAnimation = new PlayerAnimation(texturePath);
-        this.playerAnimation.initialize();
         this.innerSprite.setSize(spriteOriginalWidth * scale,
-                                 spriteOriginalHeight * scale);
+                spriteOriginalHeight * scale);
     }
 
     @Override
@@ -58,7 +52,6 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
             this.body.setScalarForce(maxThrust);
         }
 
-        this.innerSprite.setRegion(this.playerAnimation.getCurrentFrame(dt));
         this.body.update(dt);
         this.position.add(this.body.getVelocity());
         this.innerSprite.setPosition(this.position.x, this.position.y);
@@ -96,10 +89,10 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
     private void shoot() {
         GameComponent bullet = new Bullet(this.getGame(),
-                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2), (this.getPosition().y + this.innerSprite.getHeight())));
+                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() / 2), (this.getPosition().y + this.innerSprite.getHeight())));
         bullet.initialize(); // TODO: not good doing that here.
         GameComponent bullet2 = new Bullet(this.getGame(),
-                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2)-10, (this.getPosition().y + this.innerSprite.getHeight())));
+                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() / 2) - 10, (this.getPosition().y + this.innerSprite.getHeight())));
         bullet2.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
         this.getGame().getComponents().add(bullet2);
