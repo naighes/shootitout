@@ -19,8 +19,8 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
     private PlayerAnimation playerAnimation;
     private Vector2 position;
-    private final float spriteOriginalWidth = 268f;
-    private final float spriteOriginalHeight = 324.33f;
+    private final float width = 268f; // TODO: should be "injected".
+    private final float height = 324.33f; // TODO: should be "injected".
 
     public Player(GameBase game,
                   String texturePath,
@@ -44,8 +44,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
         this.playerAnimation = new PlayerAnimation(texturePath);
         this.playerAnimation.initialize();
-        this.innerSprite.setSize(spriteOriginalWidth * scale,
-                                 spriteOriginalHeight * scale);
+        this.innerSprite.setSize(this.width * this.scale, this.height * this.scale);
     }
 
     @Override
@@ -96,10 +95,12 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
     private void shoot() {
         GameComponent bullet = new Bullet(this.getGame(),
-                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2), (this.getPosition().y + this.innerSprite.getHeight())));
+                                          new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f,
+                                                      this.getPosition().y + this.innerSprite.getHeight()));
         bullet.initialize(); // TODO: not good doing that here.
         GameComponent bullet2 = new Bullet(this.getGame(),
-                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2)-10, (this.getPosition().y + this.innerSprite.getHeight())));
+                                           new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f - 10f,
+                                                       this.getPosition().y + this.innerSprite.getHeight()));
         bullet2.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
         this.getGame().getComponents().add(bullet2);
