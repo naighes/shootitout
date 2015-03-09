@@ -1,4 +1,4 @@
-package com.nukedbit.core.physics;
+package com.nukedbit.framework.physics;
 
 import com.badlogic.gdx.math.Vector2;
 

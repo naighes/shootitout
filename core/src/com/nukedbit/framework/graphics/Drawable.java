@@ -1,4 +1,4 @@
-package com.nukedbit.core.graphics;
+package com.nukedbit.framework.graphics;
 
 public interface Drawable {
     void render();

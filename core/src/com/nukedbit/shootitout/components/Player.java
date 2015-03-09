@@ -5,13 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.components.DrawableComponentBase;
-import com.nukedbit.core.components.GameBase;
-import com.nukedbit.core.components.GameComponent;
-import com.nukedbit.core.components.input.KeyboardInput;
-import com.nukedbit.core.observing.Observer;
-import com.nukedbit.core.physics.RigidBody;
-import com.nukedbit.core.physics.WorldObject;
+import com.nukedbit.framework.components.DrawableComponentBase;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.GameComponent;
+import com.nukedbit.framework.components.input.KeyboardInput;
+import com.nukedbit.framework.observing.Observer;
+import com.nukedbit.framework.physics.RigidBody;
+import com.nukedbit.framework.physics.WorldObject;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final String texturePath;

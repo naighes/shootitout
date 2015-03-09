@@ -1,9 +1,9 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.core.components.DrawableComponentBase;
-import com.nukedbit.core.components.GameBase;
-import com.nukedbit.core.utils.Randomize;
+import com.nukedbit.framework.components.DrawableComponentBase;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.utils.Randomize;
 
 public class StarLayer extends DrawableComponentBase {
     private final int starsCount;

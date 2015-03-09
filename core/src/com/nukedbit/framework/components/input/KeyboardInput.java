@@ -1,10 +1,10 @@
-package com.nukedbit.core.components.input;
+package com.nukedbit.framework.components.input;
 
 import com.badlogic.gdx.Input;
-import com.nukedbit.core.components.GameBase;
-import com.nukedbit.core.components.GameComponentBase;
-import com.nukedbit.core.observing.Observable;
-import com.nukedbit.core.observing.Observer;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.GameComponentBase;
+import com.nukedbit.framework.observing.Observable;
+import com.nukedbit.framework.observing.Observer;
 
 import java.util.ArrayList;
 import java.util.HashSet;

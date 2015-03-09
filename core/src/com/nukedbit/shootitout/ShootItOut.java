@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.core.components.GameBase;
+import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.shootitout.components.MainGame;
 
 public class ShootItOut extends ApplicationAdapter {

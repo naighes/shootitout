@@ -1,4 +1,4 @@
-package com.nukedbit.core.observing;
+package com.nukedbit.framework.observing;
 
 public interface Observer<T> {
     void notify(T input);

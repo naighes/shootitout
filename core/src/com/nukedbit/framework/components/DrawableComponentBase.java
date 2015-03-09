@@ -1,6 +1,6 @@
-package com.nukedbit.core.components;
+package com.nukedbit.framework.components;
 
-import com.nukedbit.core.graphics.Drawable;
+import com.nukedbit.framework.graphics.Drawable;
 
 public class DrawableComponentBase extends GameComponentBase implements Drawable {
     protected DrawableComponentBase(GameBase game) {

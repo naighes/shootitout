@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.components.GameBase;
-import com.nukedbit.core.components.GameComponent;
-import com.nukedbit.core.components.cameras.OrthographicCamera;
-import com.nukedbit.core.components.input.KeyboardInput;
-import com.nukedbit.core.physics.Environment;
-import com.nukedbit.core.physics.RigidBody;
-import com.nukedbit.core.physics.WorldObject;
-import com.nukedbit.core.utils.Randomize;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.GameComponent;
+import com.nukedbit.framework.components.cameras.OrthographicCamera;
+import com.nukedbit.framework.components.input.KeyboardInput;
+import com.nukedbit.framework.physics.Environment;
+import com.nukedbit.framework.physics.RigidBody;
+import com.nukedbit.framework.physics.WorldObject;
+import com.nukedbit.framework.utils.Randomize;
 
 public class MainGame extends GameBase {
     public MainGame(Graphics graphics,

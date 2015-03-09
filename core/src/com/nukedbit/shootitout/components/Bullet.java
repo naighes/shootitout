@@ -3,8 +3,8 @@ package com.nukedbit.shootitout.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.components.DrawableComponentBase;
-import com.nukedbit.core.components.GameBase;
+import com.nukedbit.framework.components.DrawableComponentBase;
+import com.nukedbit.framework.components.GameBase;
 
 public class Bullet extends DrawableComponentBase {
     private final String texturePath;

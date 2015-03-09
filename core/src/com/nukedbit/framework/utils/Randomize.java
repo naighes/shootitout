@@ -1,4 +1,4 @@
-package com.nukedbit.core.utils;
+package com.nukedbit.framework.utils;
 
 import java.util.Random;
 

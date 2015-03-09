@@ -1,12 +1,12 @@
-package com.nukedbit.core.components;
+package com.nukedbit.framework.components;
 
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.core.components.cameras.Camera;
-import com.nukedbit.core.graphics.Drawable;
-import com.nukedbit.core.graphics.ViewPort;
+import com.nukedbit.framework.components.cameras.Camera;
+import com.nukedbit.framework.graphics.Drawable;
+import com.nukedbit.framework.graphics.ViewPort;
 
 import java.util.ArrayList;
 

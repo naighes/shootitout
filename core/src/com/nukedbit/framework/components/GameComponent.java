@@ -1,4 +1,4 @@
-package com.nukedbit.core.components;
+package com.nukedbit.framework.components;
 
 import java.util.ArrayList;
 

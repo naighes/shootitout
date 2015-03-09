@@ -1,9 +1,9 @@
-package com.nukedbit.core.components.cameras;
+package com.nukedbit.framework.components.cameras;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.core.components.GameBase;
-import com.nukedbit.core.components.GameComponentBase;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.GameComponentBase;
 
 public abstract class Camera extends GameComponentBase {
     protected Vector2 position;
