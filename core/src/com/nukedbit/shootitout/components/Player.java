@@ -1,6 +1,8 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
@@ -13,12 +15,15 @@ import com.nukedbit.framework.physics.WorldObject;
 public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
-    private final String texturePath;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
 
-    private PlayerAnimation playerAnimation;
+    private final int FRAME_COLS = 1;
+    private final int FRAME_ROWS = 15;
+
     private Vector2 position;
+    private Animation animation;
+    private float stateTime = 0f;
 
     public Player(GameBase game,
                   String texturePath,
@@ -29,7 +34,6 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     {
         super(game, texturePath);
 
-        this.texturePath = texturePath;
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = maxThrust;
@@ -40,10 +44,16 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     public void initialize() {
         super.initialize();
 
-        this.playerAnimation = new PlayerAnimation(texturePath);
-        this.playerAnimation.initialize();
+        TextureRegion[][] regions = getRegions();
+        this.animation = new Animation(0.040f, getFrames(regions));
         this.innerSprite.setSize(this.innerSprite.getWidth() * scale,
-                                 this.innerSprite.getHeight() * scale);
+                                 this.innerSprite.getWidth() * scale);
+    }
+
+    private TextureRegion[][] getRegions() {
+        return TextureRegion.split(this.texture,
+                                   this.texture.getWidth() / FRAME_COLS,
+                                   this.texture.getHeight() / FRAME_ROWS);
     }
 
     @Override
@@ -56,7 +66,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
             this.body.setScalarForce(maxThrust);
         }
 
-        this.innerSprite.setRegion(this.playerAnimation.getCurrentFrame(dt));
+        this.innerSprite.setRegion(this.getCurrentFrame(dt));
         this.body.update(dt);
         this.position.add(this.body.getVelocity());
         this.innerSprite.setPosition(this.position.x, this.position.y);
@@ -114,5 +124,24 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     @Override
     public Vector2 getPosition() {
         return this.position;
+    }
+
+    private TextureRegion[] getFrames(TextureRegion[][] regions) {
+        TextureRegion[] frames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+
+        int index = 0;
+
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                frames[index++] = regions[i][j];
+            }
+        }
+
+        return frames;
+    }
+
+    public TextureRegion getCurrentFrame(float deltaTime) {
+        this.stateTime += deltaTime;
+        return this.animation.getKeyFrame(this.stateTime, true);
     }
 }
