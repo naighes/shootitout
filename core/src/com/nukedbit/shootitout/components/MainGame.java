@@ -68,20 +68,27 @@ public class MainGame extends GameBase {
                                                             Input.Keys.UP,
                                                             Input.Keys.DOWN,
                                                             Input.Keys.SPACE });
-        Player player = new Player(this,
-                                   "Player_With_Engine_Fire.png",
-                                   new Vector2(-558f / 2f,
-                                               ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
-                                   new RigidBody(new Vector2(0f, 0f),
-                                                 new Vector2(0f, 0f),
-                                                 0.1f,
-                                                 0f,
-                                                 this.environment),
-                                   .5f,
-                                   420.0f);
+        Player player = buildPlayer();
         input.subscribe(player);
         this.getComponents().add(input);
         this.getComponents().add(player);
+    }
+
+    private Player buildPlayer() {
+        Vector2 position = new Vector2(-558f / 2f,
+                                       ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f);
+        RigidBody body = new RigidBody(new Vector2(0f, 0f),
+                                       new Vector2(0f, 0f),
+                                       0.1f,
+                                       0f,
+                                       this.environment);
+        Player component = new Player(this,
+                                      "Player_With_Engine_Fire.png",
+                                      position,
+                                      body,
+                                      .5f,
+                                      420.0f);
+        return component;
     }
 
     @Override
