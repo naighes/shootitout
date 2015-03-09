@@ -1,27 +1,21 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
 import com.nukedbit.framework.components.input.KeyboardInput;
+import com.nukedbit.framework.components.Sprite;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.physics.WorldObject;
 
-public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
-    private final String texturePath;
+public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
 
-    private Texture texture;
     private Vector2 position;
     private final RigidBody body;
-    private Sprite sprite;
 
     private final Vector2 zero = new Vector2(0f, 0f);
 
@@ -32,9 +26,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
                   float scale,
                   float maxThrust)
     {
-        super(game);
+        super(game, texturePath);
 
-        this.texturePath = texturePath;
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = maxThrust;
@@ -43,12 +36,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     @Override
     public void initialize() {
-        this.texture = new Texture(Gdx.files.internal(this.texturePath));
-        this.sprite = new Sprite(this.texture);
-        this.sprite.setSize(this.sprite.getWidth() * scale,
-                            this.sprite.getHeight() * scale);
-
         super.initialize();
+        
+        this.innerSprite.setSize(this.innerSprite.getWidth() * scale,
+                                 this.innerSprite.getHeight() * scale);
     }
 
     @Override
@@ -63,15 +54,11 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
         this.body.update(dt);
         this.position.add(this.body.getVelocity());
-        this.sprite.setPosition(this.position.x, this.position.y);
+        this.innerSprite.setPosition(this.position.x, this.position.y);
     }
 
     @Override
     public void render() {
-        this.getGame().getSpriteBatch().begin();
-        this.sprite.draw(this.getGame().getSpriteBatch());
-        this.getGame().getSpriteBatch().end();
-
         super.render();
     }
 
