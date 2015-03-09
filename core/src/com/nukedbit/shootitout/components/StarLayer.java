@@ -39,6 +39,7 @@ public class StarLayer extends DrawableComponentBase {
 
     @Override
     public void render() {
+
         this.getGame().getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
 
         super.render();

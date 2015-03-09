@@ -13,11 +13,12 @@ import com.nukedbit.framework.physics.WorldObject;
 public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
-
-    private Vector2 position;
+    private final String texturePath;
     private final RigidBody body;
-
     private final Vector2 zero = new Vector2(0f, 0f);
+
+    private PlayerAnimation playerAnimation;
+    private Vector2 position;
 
     public Player(GameBase game,
                   String texturePath,
@@ -28,6 +29,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     {
         super(game, texturePath);
 
+        this.texturePath = texturePath;
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = maxThrust;
@@ -38,6 +40,8 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     public void initialize() {
         super.initialize();
 
+        this.playerAnimation = new PlayerAnimation(texturePath);
+        this.playerAnimation.initialize();
         this.innerSprite.setSize(this.innerSprite.getWidth() * scale,
                                  this.innerSprite.getHeight() * scale);
     }
@@ -52,6 +56,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
             this.body.setScalarForce(maxThrust);
         }
 
+        this.innerSprite.setRegion(this.playerAnimation.getCurrentFrame(dt));
         this.body.update(dt);
         this.position.add(this.body.getVelocity());
         this.innerSprite.setPosition(this.position.x, this.position.y);
@@ -68,7 +73,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
             notify((KeyboardInput.KeyPressed) input);
         }
 
-        if (input instanceof KeyboardInput.KeyReleased){
+        if (input instanceof KeyboardInput.KeyReleased) {
             notify((KeyboardInput.KeyReleased) input);
         }
     }
@@ -89,7 +94,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
     private void shoot() {
         GameComponent bullet = new Bullet(this.getGame(),
-                                          new Vector2(this.getPosition().x, this.getPosition().y));
+                new Vector2(this.getPosition().x, this.getPosition().y));
         bullet.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
     }

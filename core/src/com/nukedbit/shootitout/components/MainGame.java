@@ -57,6 +57,8 @@ public class MainGame extends GameBase {
 
     private void prepareComponents() {
         this.setActiveCamera(new OrthographicCamera(this, new Vector2(0f, 0f)));
+
+        this.getComponents().add(new Background(this,"game_background.png"));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
         this.getComponents().add(new StarLayer(this, 500, 36, this.random));
         KeyboardInput input = new KeyboardInput(this,
@@ -67,7 +69,7 @@ public class MainGame extends GameBase {
                                                             Input.Keys.DOWN,
                                                             Input.Keys.SPACE });
         Player player = new Player(this,
-                                   "player.png",
+                                   "Player_With_Engine_Fire.png",
                                    new Vector2(-558f / 2f,
                                                ((-368f / 2f) - this.getGame().getViewPort().getHeight()) / 4f),
                                    new RigidBody(new Vector2(0f, 0f),
@@ -75,7 +77,7 @@ public class MainGame extends GameBase {
                                                  0.1f,
                                                  0f,
                                                  this.environment),
-                                   0.15f,
+                                   .5f,
                                    420.0f);
         input.subscribe(player);
         this.getComponents().add(input);

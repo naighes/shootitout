@@ -22,7 +22,7 @@ public class Star extends DrawableComponentBase {
         return new Star(game,
                         random.next(minWidth, maxWidth),
                         random.next(minHeight, maxHeight),
-                        random.next(),
+                        1f,
                         speed);
     }
 
@@ -58,7 +58,7 @@ public class Star extends DrawableComponentBase {
         this.getGame().getShapeRenderer().setColor(this.color, this.color, this.color, 1.0f);
         this.getGame().getShapeRenderer().point((int) x, (int) y, 0);
 
-        this.getGame().getShapeRenderer().setColor(this.glowColor, this.glowColor, this.glowColor, 1.0f);
+        this.getGame().getShapeRenderer().setColor(this.glowColor, this.glowColor, this.glowColor, 0.7f);
         this.getGame().getShapeRenderer().point((int) x - 1, (int) y, 0);
         this.getGame().getShapeRenderer().point((int) x + 1, (int) y, 0);
         this.getGame().getShapeRenderer().point((int) x, (int) y - 1, 0);
