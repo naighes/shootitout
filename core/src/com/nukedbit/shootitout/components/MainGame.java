@@ -57,6 +57,8 @@ public class MainGame extends GameBase {
 
     private void prepareComponents() {
         this.setActiveCamera(new OrthographicCamera(this, new Vector2(0f, 0f)));
+
+        this.getComponents().add(new Background(this,"game_background.png"));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
         this.getComponents().add(new StarLayer(this, 500, 36, this.random));
         KeyboardInput input = new KeyboardInput(this,

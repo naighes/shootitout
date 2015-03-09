@@ -1,5 +1,7 @@
 package com.nukedbit.shootitout.components;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.nukedbit.core.components.DrawableComponentBase;
 import com.nukedbit.core.components.GameBase;
@@ -39,10 +41,13 @@ public class StarLayer extends DrawableComponentBase {
 
     @Override
     public void render() {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         this.getGame().getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
 
         super.render();
 
         this.getGame().getShapeRenderer().end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 }
