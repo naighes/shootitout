@@ -77,7 +77,7 @@ public class MainGame extends GameBase {
                                                  0.1f,
                                                  0f,
                                                  this.environment),
-                                   .7f,
+                                   .5f,
                                    420.0f);
         input.subscribe(player);
         this.getComponents().add(input);
