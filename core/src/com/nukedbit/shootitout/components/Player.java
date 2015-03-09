@@ -3,6 +3,7 @@ package com.nukedbit.shootitout.components;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
@@ -15,6 +16,7 @@ import com.nukedbit.framework.physics.WorldObject;
 public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
+    private final Rectangle[] frames;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
 
@@ -22,8 +24,6 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     private final float width = 268f; // TODO: should be "injected".
     private final float height = 324.33f; // TODO: should be "injected".
 
-    private final int FRAME_COLS = 1;
-    private final int FRAME_ROWS = 15;
     private Animation animation;
     private final float frameDuration;
     private float stateTime = 0f;
@@ -33,7 +33,8 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
                   Vector2 initialPosition,
                   RigidBody body,
                   float scale,
-                  float maxThrust)
+                  float maxThrust,
+                  Rectangle[] frames)
     {
         super(game, texturePath);
 
@@ -41,6 +42,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         this.body = body;
         this.maxThrust = maxThrust;
         this.scale = scale;
+        this.frames = frames;
         this.frameDuration = 0.040f; // TODO: should be "injected".
     }
 
@@ -48,10 +50,7 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
     public void initialize() {
         super.initialize();
 
-        TextureRegion[][] tmp = TextureRegion.split(this.texture,
-                                                    this.texture.getWidth() / FRAME_COLS,
-                                                    this.texture.getHeight() / FRAME_ROWS);
-        this.animation = new Animation(frameDuration, this.getAnimationFrames(tmp));
+        this.animation = new Animation(frameDuration, this.getFrames(this.frames));
         this.innerSprite.setSize(this.width * this.scale, this.height * this.scale);
     }
 
@@ -131,14 +130,15 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         return this.position;
     }
 
-    private TextureRegion[] getAnimationFrames(TextureRegion[][] tmp) {
-        TextureRegion[] frames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-        int index = 0;
+    private TextureRegion[] getFrames(Rectangle[] rectangles) {
+        TextureRegion[] frames = new TextureRegion[rectangles.length];
 
-        for (int i = 0; i < this.FRAME_ROWS; i++) {
-            for (int j = 0; j < this.FRAME_COLS; j++) {
-                frames[index++] = tmp[i][j];
-            }
+        for (int i = 0; i < rectangles.length; i++) {
+            frames[i] = new TextureRegion(texture,
+                                          (int) rectangles[i].x,
+                                          (int) rectangles[i].y,
+                                          (int) rectangles[i].width,
+                                          (int) rectangles[i].height);
         }
 
         return frames;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
@@ -82,12 +83,21 @@ public class MainGame extends GameBase {
                                        0.1f,
                                        0f,
                                        this.environment);
+
+        Rectangle[] frames = new Rectangle[15];
+
+        for (int i = 0; i < 15; i++) {
+            frames[i] = new Rectangle(0, i * 281, 268, 281);
+        }
+
         Player component = new Player(this,
                                       "Player_With_Engine_Fire.png",
                                       position,
                                       body,
                                       .5f,
-                                      420.0f);
+                                      420.0f,
+                                      frames);
+
         return component;
     }
 
