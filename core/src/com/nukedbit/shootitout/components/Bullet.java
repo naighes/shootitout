@@ -9,7 +9,7 @@ public class Bullet extends Sprite implements WorldObject {
     private Vector2 position;
 
     public Bullet(GameBase game, Vector2 initialPosition) {
-        super(game, "laser.png");
+        super(game, "bullet.png");
 
         this.position = initialPosition;
     }
