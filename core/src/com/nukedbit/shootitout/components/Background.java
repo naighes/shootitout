@@ -1,5 +1,6 @@
 package com.nukedbit.shootitout.components;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.physics.WorldObject;
@@ -17,17 +18,34 @@ public class Background extends com.nukedbit.framework.components.Sprite impleme
     public void initialize() {
         super.initialize();
 
-        this.position = new Vector2(this.getGame().getViewPort().getWidth()/2 * -1f,
-                                    this.getGame().getViewPort().getHeight()/2 * -1f);
+        final int viewPortWidth = this.getGame().getViewPort().getWidth();
+        final int viewportHeight = this.getGame().getViewPort().getHeight();
+
+        this.position = new Vector2(viewPortWidth /2 * -1f,
+                                    viewportHeight /2 * -1f);
+
+        final Texture texture = this.innerSprite.getTexture();
+        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
         this.innerSprite.setPosition(this.position.x, this.position.y);
+        this.innerSprite.setSize(Math.abs(texture.getWidth()), Math.abs(texture.getHeight()));
+        this.innerSprite.setOrigin(texture.getWidth() / 2, texture.getHeight() / 2);
+        this.innerSprite.setRegion(0,0, viewPortWidth, viewportHeight);
+
+        this.innerSprite.setSize(texture.getWidth(), texture.getHeight() );
     }
 
+    float scrollTimer= 0;
     @Override
     public void update(float dt) {
         super.update(dt);
 
-        this.position.y = this.position.y - this.speed * dt;
-        this.innerSprite.setPosition(this.position.x, this.position.y);
+        scrollTimer -= dt * 0.002f;
+        if(scrollTimer>1.0f)
+            scrollTimer = 0.0f;
+
+        innerSprite.setV(scrollTimer);
+        innerSprite.setV2(scrollTimer + 1);
     }
 
     @Override
