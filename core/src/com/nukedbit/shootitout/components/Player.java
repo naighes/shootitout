@@ -98,7 +98,11 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         GameComponent bullet = new Bullet(this.getGame(),
                 new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2), (this.getPosition().y + this.innerSprite.getHeight())));
         bullet.initialize(); // TODO: not good doing that here.
+        GameComponent bullet2 = new Bullet(this.getGame(),
+                new Vector2(this.getPosition().x + (this.innerSprite.getWidth() /2)-15, (this.getPosition().y + this.innerSprite.getHeight())));
+        bullet2.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
+        this.getGame().getComponents().add(bullet2);
     }
 
     public void notify(KeyboardInput.KeyPressed input) {
