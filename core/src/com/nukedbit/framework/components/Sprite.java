@@ -9,8 +9,7 @@ public class Sprite extends DrawableComponentBase {
 
     protected Texture texture;
 
-    public Sprite(GameBase game,
-                  String texturePath) {
+    public Sprite(GameBase game, String texturePath) {
         super(game);
 
         this.texturePath = texturePath;
