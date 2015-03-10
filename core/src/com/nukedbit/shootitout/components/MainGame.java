@@ -85,6 +85,7 @@ public class MainGame extends GameBase {
         input.subscribe(player);
         this.getComponents().add(input);
         this.getComponents().add(player);
+        this.getComponents().add(new Asteroid(this));
     }
 
     @Override
