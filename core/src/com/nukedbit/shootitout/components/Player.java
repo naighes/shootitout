@@ -1,6 +1,10 @@
 package com.nukedbit.shootitout.components;
 
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.AnimatedSprite;
 import com.nukedbit.framework.components.GameBase;
@@ -15,6 +19,7 @@ public class Player extends AnimatedSprite implements Observer<KeyboardInput.Key
     private final float scale;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
+    private final FileHandle shootSoundFileHandle;
 
     private Vector2 position;
     private final float spriteOriginalWidth = 268f;
@@ -32,6 +37,7 @@ public class Player extends AnimatedSprite implements Observer<KeyboardInput.Key
         this.body = body;
         this.maxThrust = maxThrust;
         this.scale = scale;
+        shootSoundFileHandle = Gdx.files.getFileHandle("science_fiction_laser_007.mp3", Files.FileType.Absolute);
     }
 
     @Override
@@ -96,6 +102,9 @@ public class Player extends AnimatedSprite implements Observer<KeyboardInput.Key
         bullet2.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
         this.getGame().getComponents().add(bullet2);
+
+        final Sound sound = Gdx.audio.newSound(shootSoundFileHandle);
+        sound.play();
     }
 
     public void notify(KeyboardInput.KeyPressed input) {

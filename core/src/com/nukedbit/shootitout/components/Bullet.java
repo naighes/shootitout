@@ -27,7 +27,7 @@ public class Bullet extends AnimatedSprite implements WorldObject {
     public void update(float dt) {
         super.update(dt);
 
-        this.position.add(0f, 8.8f);
+        this.position.add(0f, 16f);
         this.innerSprite.setPosition(this.position.x, this.position.y);
     }
 
