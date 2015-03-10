@@ -1,12 +1,10 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
 import com.nukedbit.framework.components.SpriteComponent;
-import com.nukedbit.framework.components.animations.SpriteAnimation;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
@@ -100,14 +98,14 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     }
 
     private void shoot() {
-        GameComponent bullet = new Bullet(this.getGame(),
-                                          new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f,
-                                                      this.getPosition().y + this.innerSprite.getHeight()));
-        GameComponent bullet2 = new Bullet(this.getGame(),
-                                           new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f - 10f,
-                                                       this.getPosition().y + this.innerSprite.getHeight()));
+        float y = this.getPosition().y + this.innerSprite.getHeight();
+        addBullet(this.getPosition().x + this.innerSprite.getWidth() * 0.43f, y);
+        addBullet(this.getPosition().x + this.innerSprite.getWidth() * 0.53f, y);
+    }
+
+    private void addBullet(float x, float y) {
+        GameComponent bullet = new Bullet(this.getGame(), new Vector2(x, y));
         this.getGame().getComponents().add(bullet);
-        this.getGame().getComponents().add(bullet2);
     }
 
     public void notify(KeyboardInput.KeyPressed input) {
