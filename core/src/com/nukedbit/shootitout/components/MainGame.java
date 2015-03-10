@@ -14,7 +14,6 @@ import com.nukedbit.framework.components.cameras.OrthographicCamera;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.physics.Environment;
 import com.nukedbit.framework.physics.RigidBody;
-import com.nukedbit.framework.physics.WorldObject;
 import com.nukedbit.framework.utils.Randomize;
 
 public class MainGame extends GameBase {
@@ -36,6 +35,8 @@ public class MainGame extends GameBase {
         this.prepareComponents();
 
         super.initialize();
+
+        addPlayerAnimation(this.getPlayer());
     }
 
     @Override
@@ -43,13 +44,12 @@ public class MainGame extends GameBase {
         super.update(dt);
     }
 
-    // NOTE: added for experimenting with camera.
-    private WorldObject getPlayer() {
+    private Player getPlayer() {
         for (int i = 0; i < this.getComponents().size(); i++) {
             GameComponent component = this.getComponents().get(i);
 
             if (component instanceof Player) {
-                return (WorldObject) component;
+                return (Player) component;
             }
         }
 
@@ -84,21 +84,24 @@ public class MainGame extends GameBase {
                                        0f,
                                        this.environment);
 
+        Player component = new Player(this,
+                                      "Player_With_Engine_Fire.png",
+                                      position,
+                                      body,
+                                      .5f,
+                                      420.0f);
+
+        return component;
+    }
+
+    private void addPlayerAnimation(Player component) {
         Rectangle[] frames = new Rectangle[15];
 
         for (int i = 0; i < 15; i++) {
             frames[i] = new Rectangle(0, i * 281, 268, 281);
         }
 
-        Player component = new Player(this,
-                                      "Player_With_Engine_Fire.png",
-                                      position,
-                                      body,
-                                      .5f,
-                                      420.0f,
-                                      frames);
-
-        return component;
+        component.setCurrentAnimation(frames, 0.04f);
     }
 
     @Override

@@ -3,13 +3,13 @@ package com.nukedbit.framework.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Sprite extends DrawableComponentBase {
+public class SpriteComponent extends DrawableComponentBase {
     protected com.badlogic.gdx.graphics.g2d.Sprite innerSprite;
     private final String texturePath;
 
     protected Texture texture;
 
-    public Sprite(GameBase game, String texturePath) {
+    public SpriteComponent(GameBase game, String texturePath) {
         super(game);
 
         this.texturePath = texturePath;

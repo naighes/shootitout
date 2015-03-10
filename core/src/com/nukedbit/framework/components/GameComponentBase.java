@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class GameComponentBase implements GameComponent {
     private final GameBase game;
+    private boolean initialized = false;
 
     protected GameComponentBase(GameBase game) {
         this.game = game;
@@ -16,15 +17,26 @@ public abstract class GameComponentBase implements GameComponent {
     }
 
     public void update(float dt) {
+        this.ensureInitialization();
+
         for (int i = 0; i < this.getComponents().size(); i++) {
-            this.getComponents().get(i).update(dt);
+            GameComponent component = this.getComponents().get(i);
+            component.update(dt);
         }
+    }
+
+    protected void ensureInitialization() {
+        if (!this.initialized)
+            this.initialize();
     }
 
     public void initialize() {
         for (int i = 0; i < this.getComponents().size(); i++) {
-            this.getComponents().get(i).initialize();
+            GameComponent component = this.getComponents().get(i);
+            component.initialize();
         }
+
+        this.initialized = true;
     }
 
     public GameBase getGame() {

@@ -1,38 +1,32 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
-import com.nukedbit.framework.components.Sprite;
+import com.nukedbit.framework.components.SpriteComponent;
+import com.nukedbit.framework.components.animations.SpriteAnimation;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.physics.WorldObject;
 
-public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, WorldObject {
+public class Player extends SpriteComponent implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final float maxThrust;
     private final float scale;
-    private final Rectangle[] frames;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
 
     private Vector2 position;
-
-    private Animation animation;
-    private final float frameDuration;
-    private float stateTime = 0f;
 
     public Player(GameBase game,
                   String texturePath,
                   Vector2 initialPosition,
                   RigidBody body,
                   float scale,
-                  float maxThrust,
-                  Rectangle[] frames)
+                  float maxThrust)
     {
         super(game, texturePath);
 
@@ -40,15 +34,11 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         this.body = body;
         this.maxThrust = maxThrust;
         this.scale = scale;
-        this.frames = frames;
-        this.frameDuration = 0.040f; // TODO: should be "injected".
     }
 
     @Override
     public void initialize() {
         super.initialize();
-
-        this.animation = new Animation(frameDuration, this.getFrames(this.frames));
     }
 
     @Override
@@ -63,10 +53,17 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
 
         this.body.update(dt);
 
-        TextureRegion frame = this.getCurrentFrame(dt);
-        this.innerSprite.setRegion(frame);
-        this.innerSprite.setSize(frame.getRegionWidth() * this.scale,
-                                 frame.getRegionHeight() * this.scale);
+        SpriteAnimation animation = this.getCurrentAnimation();
+
+        if (animation != null) {
+            TextureRegion frame = animation.getCurrentFrame(dt);
+            this.innerSprite.setRegion(frame);
+            this.innerSprite.setSize(frame.getRegionWidth() * this.scale,
+                                     frame.getRegionHeight() * this.scale);
+        } else {
+            this.innerSprite.setSize(this.texture.getWidth() * this.scale,
+                                     this.texture.getHeight() * this.scale);
+        }
 
         this.position.add(this.body.getVelocity());
         this.innerSprite.setPosition(this.position.x, this.position.y);
@@ -132,22 +129,23 @@ public class Player extends Sprite implements Observer<KeyboardInput.KeyEvent>, 
         return this.position;
     }
 
-    private TextureRegion[] getFrames(Rectangle[] rectangles) {
-        TextureRegion[] frames = new TextureRegion[rectangles.length];
-
-        for (int i = 0; i < rectangles.length; i++) {
-            frames[i] = new TextureRegion(texture,
-                                          (int) rectangles[i].x,
-                                          (int) rectangles[i].y,
-                                          (int) rectangles[i].width,
-                                          (int) rectangles[i].height);
-        }
-
-        return frames;
+    public void setCurrentAnimation(Rectangle[] frames, float frameDuration) {
+        SpriteAnimation e = new SpriteAnimation(this.getGame(),
+                                                frameDuration,
+                                                frames,
+                                                this.innerSprite);
+        this.getComponents().add(e);
     }
 
-    private TextureRegion getCurrentFrame(float dt) {
-        this.stateTime += dt;
-        return this.animation.getKeyFrame(this.stateTime, true);
+    private SpriteAnimation getCurrentAnimation() {
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            GameComponent component = this.getComponents().get(i);
+
+            if (component instanceof SpriteAnimation) {
+                return (SpriteAnimation) component;
+            }
+        }
+
+        return null;
     }
 }

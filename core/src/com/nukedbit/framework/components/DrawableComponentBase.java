@@ -8,6 +8,8 @@ public class DrawableComponentBase extends GameComponentBase implements Drawable
     }
 
     public void render() {
+        this.ensureInitialization();
+
         for (int i = 0; i < this.getComponents().size(); i++) {
             GameComponent component = this.getComponents().get(i);
 

@@ -2,9 +2,10 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.SpriteComponent;
 import com.nukedbit.framework.physics.WorldObject;
 
-public class Background extends com.nukedbit.framework.components.Sprite implements WorldObject {
+public class Background extends SpriteComponent implements WorldObject {
     private float speed = 10f;
 
     private Vector2 position;

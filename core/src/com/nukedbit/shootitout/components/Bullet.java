@@ -2,10 +2,10 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
-import com.nukedbit.framework.components.Sprite;
+import com.nukedbit.framework.components.SpriteComponent;
 import com.nukedbit.framework.physics.WorldObject;
 
-public class Bullet extends Sprite implements WorldObject {
+public class Bullet extends SpriteComponent implements WorldObject {
     private Vector2 position;
 
     public Bullet(GameBase game, Vector2 initialPosition) {
