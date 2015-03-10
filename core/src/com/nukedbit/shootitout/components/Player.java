@@ -49,16 +49,6 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
         this.setSize(dt);
     }
 
-    private Vector2 getSize(float dt) {
-        SpriteAnimation animation = this.getCurrentAnimation();
-
-        if (animation != null) {
-            return animation.getFrameSize(dt);
-        }
-
-        return new Vector2(this.texture.getWidth(), this.texture.getHeight());
-    }
-
     private void setSize(float dt) {
         Vector2 size = this.getSize(dt);
         this.innerSprite.setSize(size.x * this.scale, size.y * this.scale);
@@ -135,25 +125,5 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     @Override
     public Vector2 getPosition() {
         return this.position;
-    }
-
-    public void setCurrentAnimation(Rectangle[] frames, float frameDuration) {
-        SpriteAnimation animation = new SpriteAnimation(this.getGame(),
-                                                        frameDuration,
-                                                        frames,
-                                                        this.innerSprite);
-        this.getComponents().add(animation);
-    }
-
-    private SpriteAnimation getCurrentAnimation() {
-        for (int i = 0; i < this.getComponents().size(); i++) {
-            GameComponent component = this.getComponents().get(i);
-
-            if (component instanceof SpriteAnimation) {
-                return (SpriteAnimation) component;
-            }
-        }
-
-        return null;
     }
 }
