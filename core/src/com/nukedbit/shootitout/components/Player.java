@@ -103,11 +103,9 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
         GameComponent bullet = new Bullet(this.getGame(),
                                           new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f,
                                                       this.getPosition().y + this.innerSprite.getHeight()));
-        bullet.initialize(); // TODO: not good doing that here.
         GameComponent bullet2 = new Bullet(this.getGame(),
                                            new Vector2(this.getPosition().x + this.innerSprite.getWidth() / 2f - 10f,
                                                        this.getPosition().y + this.innerSprite.getHeight()));
-        bullet2.initialize(); // TODO: not good doing that here.
         this.getGame().getComponents().add(bullet);
         this.getGame().getComponents().add(bullet2);
     }
