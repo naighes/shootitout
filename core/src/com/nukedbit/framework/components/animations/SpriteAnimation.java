@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponentBase;
 
@@ -36,6 +37,7 @@ public class SpriteAnimation extends GameComponentBase {
     @Override
     public void update(float dt) {
         super.update(dt);
+        this.sprite.setRegion(this.getCurrentFrame(dt));
     }
 
     private TextureRegion[] getFrames(Rectangle[] rectangles) {
@@ -52,8 +54,13 @@ public class SpriteAnimation extends GameComponentBase {
         return frames;
     }
 
-    public TextureRegion getCurrentFrame(float dt) {
+    private TextureRegion getCurrentFrame(float dt) {
         this.stateTime += dt;
         return this.animation.getKeyFrame(this.stateTime, true);
+    }
+
+    public Vector2 getFrameSize(float dt) {
+        TextureRegion frame = this.getCurrentFrame(dt);
+        return new Vector2(frame.getRegionWidth(), frame.getRegionHeight());
     }
 }

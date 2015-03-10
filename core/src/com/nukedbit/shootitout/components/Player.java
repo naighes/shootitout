@@ -1,7 +1,6 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
@@ -45,6 +44,32 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     public void update(float dt) {
         super.update(dt);
 
+        this.updateBody(dt);
+        this.setPosition();
+        this.setSize(dt);
+    }
+
+    private Vector2 getSize(float dt) {
+        SpriteAnimation animation = this.getCurrentAnimation();
+
+        if (animation != null) {
+            return animation.getFrameSize(dt);
+        }
+
+        return new Vector2(this.texture.getWidth(), this.texture.getHeight());
+    }
+
+    private void setSize(float dt) {
+        Vector2 size = this.getSize(dt);
+        this.innerSprite.setSize(size.x * this.scale, size.y * this.scale);
+    }
+
+    private void setPosition() {
+        this.position.add(this.body.getVelocity());
+        this.innerSprite.setPosition(this.position.x, this.position.y);
+    }
+
+    private void updateBody(float dt) {
         if (this.body.getDirection() == this.zero) {
             this.body.setScalarForce(0f);
         } else {
@@ -52,21 +77,6 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
         }
 
         this.body.update(dt);
-
-        SpriteAnimation animation = this.getCurrentAnimation();
-
-        if (animation != null) {
-            TextureRegion frame = animation.getCurrentFrame(dt);
-            this.innerSprite.setRegion(frame);
-            this.innerSprite.setSize(frame.getRegionWidth() * this.scale,
-                                     frame.getRegionHeight() * this.scale);
-        } else {
-            this.innerSprite.setSize(this.texture.getWidth() * this.scale,
-                                     this.texture.getHeight() * this.scale);
-        }
-
-        this.position.add(this.body.getVelocity());
-        this.innerSprite.setPosition(this.position.x, this.position.y);
     }
 
     @Override
@@ -77,11 +87,11 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     @Override
     public void notify(KeyboardInput.KeyEvent input) {
         if (input instanceof KeyboardInput.KeyPressed) {
-            notify((KeyboardInput.KeyPressed) input);
+            this.notify((KeyboardInput.KeyPressed) input);
         }
 
         if (input instanceof KeyboardInput.KeyReleased) {
-            notify((KeyboardInput.KeyReleased) input);
+            this.notify((KeyboardInput.KeyReleased) input);
         }
     }
 
@@ -128,11 +138,11 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     }
 
     public void setCurrentAnimation(Rectangle[] frames, float frameDuration) {
-        SpriteAnimation e = new SpriteAnimation(this.getGame(),
-                                                frameDuration,
-                                                frames,
-                                                this.innerSprite);
-        this.getComponents().add(e);
+        SpriteAnimation animation = new SpriteAnimation(this.getGame(),
+                                                        frameDuration,
+                                                        frames,
+                                                        this.innerSprite);
+        this.getComponents().add(animation);
     }
 
     private SpriteAnimation getCurrentAnimation() {
