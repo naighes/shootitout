@@ -1,37 +1,47 @@
-package com.nukedbit.shootitout.components;/* 
-* Copyright 2015 Sebastian Faltoni
-* 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* 
-*     http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-/*
-import com.nukedbit.framework.components.AnimatedSprite;
-import com.nukedbit.framework.components.GameBase;
+package com.nukedbit.shootitout.components;
 
-public class Asteroid extends AnimatedSprite {
-    public Asteroid(GameBase game) {
-        super(game, "asteroid_01.png", 8, 8, 0.24f);
+import com.badlogic.gdx.math.Vector2;
+import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.components.SpriteComponent;
+import com.nukedbit.framework.physics.WorldObject;
+
+public class Asteroid extends SpriteComponent implements WorldObject {
+    private final float scale;
+
+    public Asteroid(GameBase game, Vector2 initialPosition, float scale) {
+        super(game, "asteroid_01.png");
+
+        this.position = initialPosition;
+        this.scale = scale;
     }
+
+    private Vector2 position;
 
     @Override
     public void initialize() {
         super.initialize();
-        this.innerSprite.setPosition(100, 400);
-        this.innerSprite.setSize(256 * 0.5f,256* 0.5f);
+    }
+
+    private void setSize(float dt) {
+        Vector2 size = this.getSize(dt);
+        this.innerSprite.setSize(size.x * this.scale, size.y * this.scale);
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
-        this.innerSprite.setPosition(0, this.innerSprite.getY() - 3f);
+
+        this.setPosition();
+        this.setSize(dt);
     }
-}*/
+
+    private void setPosition() {
+        this.position.y -= 3f;
+        this.innerSprite.setPosition(this.position.x, this.position.y);
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        return this.position;
+    }
+}

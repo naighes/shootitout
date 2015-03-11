@@ -32,15 +32,35 @@ public class MainGame extends GameBase {
     @Override
     public void initialize() {
         this.prepareComponents();
+        this.getComponents().add(buildAsteroid());
 
         super.initialize();
 
         this.addPlayerAnimation(this.getPlayer());
+        this.addAsteroidAnimation(this.getAsteroid());
+    }
+
+    private Asteroid buildAsteroid() {
+        Asteroid asteroid = new Asteroid(this, new Vector2(0f, 400f), 0.5f);
+
+        return asteroid;
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
+    }
+
+    private Asteroid getAsteroid() {
+        for (int i = 0; i < this.getComponents().size(); i++) {
+            GameComponent component = this.getComponents().get(i);
+
+            if (component instanceof Asteroid) {
+                return (Asteroid) component;
+            }
+        }
+
+        return null;
     }
 
     private Player getPlayer() {
@@ -76,7 +96,6 @@ public class MainGame extends GameBase {
         input.subscribe(player);
         this.getComponents().add(input);
         this.getComponents().add(player);
-        //this.getComponents().add(new Asteroid(this));
     }
 
     private Player buildPlayer() {
@@ -106,6 +125,19 @@ public class MainGame extends GameBase {
         }
 
         component.setCurrentAnimation(frames, 0.04f);
+    }
+
+    private void addAsteroidAnimation(Asteroid component) {
+        Rectangle[] frames = new Rectangle[8 * 8];
+        int frame = 0;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                frames[frame++] = new Rectangle(i * 128, j * 128, 128, 128);
+            }
+        }
+
+        component.setCurrentAnimation(frames, 0.24f);
     }
 
     @Override
