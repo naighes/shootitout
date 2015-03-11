@@ -1,6 +1,10 @@
 package com.nukedbit.shootitout.components;
 
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.GameComponent;
@@ -15,6 +19,7 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
     private final float scale;
     private final RigidBody body;
     private final Vector2 zero = new Vector2(0f, 0f);
+    private final FileHandle shootSoundFileHandle;
 
     private Vector2 position;
 
@@ -23,14 +28,14 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
                   Vector2 initialPosition,
                   RigidBody body,
                   float scale,
-                  float maxThrust)
-    {
+                  float maxThrust) {
         super(game, texturePath);
 
         this.position = initialPosition;
         this.body = body;
         this.maxThrust = maxThrust;
         this.scale = scale;
+        shootSoundFileHandle = Gdx.files.getFileHandle("science_fiction_laser_007.mp3", Files.FileType.Absolute);
     }
 
     @Override
@@ -101,6 +106,8 @@ public class Player extends SpriteComponent implements Observer<KeyboardInput.Ke
         float y = this.getPosition().y + this.innerSprite.getHeight();
         addBullet(this.getPosition().x + this.innerSprite.getWidth() * 0.43f, y);
         addBullet(this.getPosition().x + this.innerSprite.getWidth() * 0.53f, y);
+        final Sound sound = Gdx.audio.newSound(shootSoundFileHandle);
+        sound.play();
     }
 
     private void addBullet(float x, float y) {

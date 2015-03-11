@@ -12,21 +12,19 @@ public class Bullet extends SpriteComponent implements WorldObject {
         super(game, "bullet.png");
 
         this.position = initialPosition;
+
     }
 
     @Override
     public void initialize() {
         super.initialize();
-
-        this.innerSprite.setSize(this.innerSprite.getWidth() * 0.2f,
-                                 this.innerSprite.getHeight() * 0.2f);
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
 
-        this.position.add(0f, 9.8f);
+        this.position.add(0f, 16f);
         this.innerSprite.setPosition(this.position.x, this.position.y);
     }
 

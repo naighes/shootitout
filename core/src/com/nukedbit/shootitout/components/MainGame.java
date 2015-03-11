@@ -1,8 +1,7 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -36,7 +35,7 @@ public class MainGame extends GameBase {
 
         super.initialize();
 
-        addPlayerAnimation(this.getPlayer());
+        this.addPlayerAnimation(this.getPlayer());
     }
 
     @Override
@@ -59,6 +58,10 @@ public class MainGame extends GameBase {
     private void prepareComponents() {
         this.setActiveCamera(new OrthographicCamera(this, new Vector2(0f, 0f)));
 
+        final Sound sound = Gdx.audio.newSound(Gdx.files.getFileHandle("A Tale From Outer Space.mp3", Files.FileType.Absolute));
+        sound.loop(0.5F);
+        sound.play();
+
         this.getComponents().add(new Background(this,"game_background.png"));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
         this.getComponents().add(new StarLayer(this, 500, 36, this.random));
@@ -73,6 +76,7 @@ public class MainGame extends GameBase {
         input.subscribe(player);
         this.getComponents().add(input);
         this.getComponents().add(player);
+        //this.getComponents().add(new Asteroid(this));
     }
 
     private Player buildPlayer() {
