@@ -25,8 +25,8 @@ public class StarLayer extends DrawableComponentBase {
     public void initialize() {
         for (int i = 0; i < starsCount; i++) {
             this.getComponents().add(Star.create(this.getGame(),
-                                                 starSpeed,
-                                                 random));
+                                                 this.starSpeed,
+                                                 this.random));
         }
 
         super.initialize();
@@ -39,7 +39,6 @@ public class StarLayer extends DrawableComponentBase {
 
     @Override
     public void render() {
-
         this.getGame().getShapeRenderer().begin(ShapeRenderer.ShapeType.Point);
 
         super.render();

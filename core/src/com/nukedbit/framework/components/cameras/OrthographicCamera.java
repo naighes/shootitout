@@ -32,12 +32,17 @@ public class OrthographicCamera extends com.nukedbit.framework.components.camera
     }
 
     private void updatePosition() {
-        this.innerCamera.translate(this.position.x, this.position.y, 0f);
-        this.innerCamera.update();
+        this.getInnerCamera().translate(this.position.x, this.position.y, 0f);
+        this.getInnerCamera().update();
     }
 
     @Override
     public Matrix4 getViewProjection() {
-        return this.innerCamera.combined;
+        return this.getInnerCamera().combined;
+    }
+
+    @Override
+    public com.badlogic.gdx.graphics.OrthographicCamera getInnerCamera() {
+        return this.innerCamera;
     }
 }

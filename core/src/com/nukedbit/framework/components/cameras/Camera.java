@@ -34,4 +34,6 @@ public abstract class Camera extends GameComponentBase {
         this.position.x = x;
         this.position.y = y;
     }
+
+    public abstract com.badlogic.gdx.graphics.OrthographicCamera getInnerCamera();
 }
