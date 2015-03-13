@@ -32,7 +32,8 @@ public class Cube extends DrawableComponentBase {
     private Environment environment;
     private Vector3 position;
     private float rotation = 0.0f;
-    private final float scale = 0.1f;
+    private final float scale = 0.2f;
+    private Matrix4 transform;
 
     @Override
     public void initialize() {
@@ -56,6 +57,7 @@ public class Cube extends DrawableComponentBase {
                                        new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                                        VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         this.instance = new ModelInstance(this.model);
+        this.transform = this.instance.transform.cpy().setToRotation(new Vector3(0f, 1f, 0f), 45f);
 
         this.position.add(new Vector3(0.3f, 0.3f, 0f));
     }
@@ -67,14 +69,10 @@ public class Cube extends DrawableComponentBase {
         this.rotation += 1.2f;
         this.position.y -= 0.002f;
 
-        Matrix4 localTransform = this.instance.transform.cpy();
-
-        Matrix4 rotation = localTransform.setToRotation(new Vector3(0f, 1f, 0f), 30f);
-        localTransform.mul(rotation);
+        Matrix4 localTransform = new Matrix4();
+        localTransform.mul(this.transform);
         localTransform.mul(new Matrix4().setToTranslation(this.position));
-
-        localTransform//.setToTranslation(this.position)
-                      .scale(this.scale, this.scale, this.scale)
+        localTransform.scale(this.scale, this.scale, this.scale)
                       .rotate(new Vector3(1f, 0f, 0f), this.rotation);
 
         this.instance.transform = localTransform;
