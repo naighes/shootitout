@@ -76,6 +76,7 @@ public class MainGame extends GameBase {
         this.getComponents().add(player);
 
         this.getComponents().add(new Enemy(this));
+        this.getComponents().add(new Cube(this));
     }
 
     private void setUpSound() {
