@@ -56,7 +56,7 @@ public class MainGame extends GameBase {
     }
 
     private void prepareComponents() {
-        this.setActiveCamera(new OrthographicCamera(this, new Vector2(0f, 0f)));
+        this.setActiveCamera(new OrthographicCamera(this));
 
         this.setUpSound();
 

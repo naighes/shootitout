@@ -63,7 +63,7 @@ public class Cube extends DrawableComponentBase {
         this.camera.position.set(0, 0f, 0);
         this.camera.lookAt(0f, 0f, -1f);
         this.camera.near = 0.1f;
-        this.camera.far = 300f;
+        this.camera.far = 100f;
         this.camera.update();
     }
 

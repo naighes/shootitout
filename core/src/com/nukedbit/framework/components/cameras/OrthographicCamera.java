@@ -1,16 +1,13 @@
 package com.nukedbit.framework.components.cameras;
 
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
 
 public class OrthographicCamera extends com.nukedbit.framework.components.cameras.Camera {
-    private final Vector2 position = new Vector2(0f, 0f);
-
     private com.badlogic.gdx.graphics.OrthographicCamera innerCamera;
 
-    public OrthographicCamera(GameBase game, Vector2 initialPosition) {
-        super(game, initialPosition);
+    public OrthographicCamera(GameBase game) {
+        super(game);
     }
 
     @Override
@@ -20,20 +17,11 @@ public class OrthographicCamera extends com.nukedbit.framework.components.camera
         int width = this.getGame().getViewPort().getWidth();
         int height = this.getGame().getViewPort().getHeight();
         this.innerCamera = new com.badlogic.gdx.graphics.OrthographicCamera(width, height);
-
-        this.updatePosition();
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
-
-        this.updatePosition();
-    }
-
-    private void updatePosition() {
-        this.getInnerCamera().translate(this.position.x, this.position.y, 0f);
-        this.getInnerCamera().update();
     }
 
     @Override
