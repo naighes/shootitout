@@ -4,6 +4,8 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.input.KeyboardInput;
@@ -19,11 +21,10 @@ public class MainGame extends GameBase {
         super(graphics, gl20, spriteBatch, shapeRenderer);
 
         this.random = new Randomize();
-        this.environment = new Environment(0.1f);
     }
 
     private final Randomize random;
-    private final Environment environment;
+    private Environment environment;
 
     @Override
     public void initialize() {
@@ -33,14 +34,19 @@ public class MainGame extends GameBase {
     }
 
     @Override
+    public Environment getEnvironment() {
+        return this.environment;
+    }
+
+    @Override
     public void update(float dt) {
         super.update(dt);
     }
 
     private void prepareComponents() {
         this.setActiveCamera(new GameCamera(this));
-
-        this.setUpSound();
+        this.buildEnvironment();
+        // this.setUpSound();
 
         this.getComponents().add(new Background(this, "game_background.png"));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
@@ -58,6 +64,13 @@ public class MainGame extends GameBase {
         input.subscribe(enemy);
         this.getComponents().add(enemy);
         this.getComponents().add(new Cube(this));
+    }
+
+    private void buildEnvironment() {
+        com.badlogic.gdx.graphics.g3d.Environment innerEnvironment = new com.badlogic.gdx.graphics.g3d.Environment();
+        innerEnvironment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        innerEnvironment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+        this.environment = new Environment(0.1f, innerEnvironment);
     }
 
     private void setUpSound() {

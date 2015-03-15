@@ -3,6 +3,7 @@ package com.nukedbit.framework.components;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.nukedbit.framework.components.cameras.Camera;
 import com.nukedbit.framework.graphics.Drawable;
@@ -103,4 +104,6 @@ public abstract class GameBase implements GameComponent, Drawable {
 
         this.getComponents().add(0, camera);
     }
+
+    public abstract com.nukedbit.framework.physics.Environment getEnvironment();
 }

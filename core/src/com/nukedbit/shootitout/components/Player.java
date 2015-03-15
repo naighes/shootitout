@@ -6,11 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -27,7 +24,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     private Matrix4 transform;
 
     private final float scale;
-    public Environment environment;
     public ModelBatch modelBatch;
     public ModelInstance instance;
 
@@ -51,7 +47,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
                                   new Vector3(0f, 0f, 0f),
                                   0.1f,
                                   0f,
-                                  new com.nukedbit.framework.physics.Environment(0.1f));
+                                  this.getGame().getEnvironment());
     }
 
     @Override
@@ -63,9 +59,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.sound = Gdx.audio.newSound(shootSoundFileHandle);
 
         this.modelBatch = new ModelBatch();
-        this.environment = new Environment();
-        this.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        this.environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
         ModelLoader<?> loader = new ObjLoader();
         this.instance = new ModelInstance(loader.loadModel(Gdx.files.internal("ship/ship.obj")));
@@ -105,7 +98,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         super.render();
 
         this.modelBatch.begin(this.getGame().getActiveCamera().getInnerCamera());
-        this.modelBatch.render(this.instance, this.environment);
+        this.modelBatch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
         this.modelBatch.end();
     }
 

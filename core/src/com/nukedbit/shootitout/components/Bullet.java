@@ -2,13 +2,11 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -27,14 +25,12 @@ public class Bullet extends DrawableComponentBase {
 
     private ModelInstance instance;
     private ModelBatch batch;
-    private Environment environment;
 
     @Override
     public void initialize() {
         super.initialize();
 
         this.batch = new ModelBatch();
-        this.buildEnvironment();
 
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(buildRectangle(builder));
@@ -49,12 +45,6 @@ public class Bullet extends DrawableComponentBase {
                                   0f, 0f, 1f,
                                   new Material(ColorAttribute.createDiffuse(Color.RED)),
                                   VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-    }
-
-    private void buildEnvironment() {
-        this.environment = new Environment();
-        this.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        this.environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
     @Override
@@ -76,7 +66,7 @@ public class Bullet extends DrawableComponentBase {
         super.render();
 
         this.batch.begin(this.getGame().getActiveCamera().getInnerCamera());
-        this.batch.render(this.instance, this.environment);
+        this.batch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
         this.batch.end();
     }
 }
