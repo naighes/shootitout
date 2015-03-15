@@ -5,14 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.nukedbit.framework.components.GameBase;
-import com.nukedbit.framework.components.GameComponent;
-import com.nukedbit.framework.components.cameras.OrthographicCamera;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.physics.Environment;
-import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.utils.Randomize;
 import com.nukedbit.shootitout.components.cameras.GameCamera;
 
@@ -59,7 +54,7 @@ public class MainGame extends GameBase {
                                                             Input.Keys.SPACE });
         this.getComponents().add(input);
 
-        Enemy enemy = new Enemy(this);
+        Player enemy = new Player(this);
         input.subscribe(enemy);
         this.getComponents().add(enemy);
         this.getComponents().add(new Cube(this));

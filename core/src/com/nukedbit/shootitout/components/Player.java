@@ -22,7 +22,7 @@ import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 
-public class Enemy extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
+public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
     private Vector3 position;
     private Vector3 direction;
     private final Matrix4 initialRotation;
@@ -40,7 +40,7 @@ public class Enemy extends DrawableComponentBase implements Observer<KeyboardInp
     private FileHandle shootSoundFileHandle;
     private Sound sound;
 
-    protected Enemy(GameBase game) {
+    protected Player(GameBase game) {
         super(game);
 
         // positive z is outside screen.
