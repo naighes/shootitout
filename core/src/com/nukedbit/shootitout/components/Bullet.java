@@ -1,40 +1,82 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
+import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
-import com.nukedbit.framework.components.SpriteComponent;
-import com.nukedbit.framework.physics.WorldObject;
 
-public class Bullet extends SpriteComponent implements WorldObject {
-    private Vector2 position;
+public class Bullet extends DrawableComponentBase {
+    private Vector3 position;
+    private Matrix4 transform;
 
-    public Bullet(GameBase game, Vector2 initialPosition) {
-        super(game, "bullet.png");
+    public Bullet(GameBase game, Vector3 initialPosition) {
+        super(game);
 
         this.position = initialPosition;
-
     }
+
+    private ModelInstance instance;
+    private ModelBatch batch;
+    private Environment environment;
 
     @Override
     public void initialize() {
         super.initialize();
+
+        this.batch = new ModelBatch();
+        this.buildEnvironment();
+
+        ModelBuilder builder = new ModelBuilder();
+        this.instance = new ModelInstance(buildRectangle(builder));
+        this.transform = this.instance.transform.cpy();
+    }
+
+    private Model buildRectangle(ModelBuilder builder) {
+        return builder.createRect(0f, 0f, 0f,
+                                  0.05f, 0f, 0f,
+                                  0.05f, 0.2f, 0f,
+                                  0f, 0.2f, 0f,
+                                  0f, 0f, 1f,
+                                  new Material(ColorAttribute.createDiffuse(Color.RED)),
+                                  VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+    }
+
+    private void buildEnvironment() {
+        this.environment = new Environment();
+        this.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        this.environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
 
-        this.position.add(0f, 16f);
-        this.innerSprite.setPosition(this.position.x, this.position.y);
+        this.position.y += 0.2f;
+
+        Matrix4 localTransform = new Matrix4();
+
+        localTransform.mul(this.transform);
+        localTransform.mul(new Matrix4().setToTranslation(this.position));
+
+        this.instance.transform = localTransform;
     }
 
     @Override
     public void render() {
         super.render();
-    }
 
-    @Override
-    public Vector2 getPosition() {
-        return this.position;
+        this.batch.begin(this.getGame().getActiveCamera().getInnerCamera());
+        this.batch.render(this.instance, this.environment);
+        this.batch.end();
     }
 }
