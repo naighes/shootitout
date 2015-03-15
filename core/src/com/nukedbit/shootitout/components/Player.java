@@ -19,35 +19,33 @@ import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
-    private Vector3 position;
     private final Matrix4 initialRotation;
+    private Vector3 position;
+    private final float scale;
+    private final float maxThrust;
+    private final RigidBody body;
+
     private Matrix4 transform;
 
-    private final float scale;
     public ModelBatch modelBatch;
     public ModelInstance instance;
-
-    private final RigidBody body;
-    private final Vector3 zero = new Vector3(0f, 0f, 0f);
-    private float maxThrust = 5.0f;
 
     private FileHandle shootSoundFileHandle;
     private Sound sound;
 
-    protected Player(GameBase game) {
+    protected Player(GameBase game,
+                     Matrix4 initialRotation,
+                     Vector3 position,
+                     float scale,
+                     float maxThrust,
+                     RigidBody body) {
         super(game);
 
-        // positive z is outside screen.
-        this.position = new Vector3(0f, 0f, -4f);
-        this.initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 180f)
-                                            .rotate(new Vector3(1f, 0f, 0f), -90f);
-        this.scale = 0.5f;
-
-        this.body = new RigidBody(new Vector3(0f, 0f, 0f),
-                                  new Vector3(0f, 0f, 0f),
-                                  0.1f,
-                                  0f,
-                                  this.getGame().getEnvironment());
+        this.position = position;
+        this.initialRotation = initialRotation;
+        this.scale = scale;
+        this.maxThrust = maxThrust;
+        this.body = body;
     }
 
     @Override
@@ -70,7 +68,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         super.update(dt);
 
         this.updateBody(dt);
-
         this.position.add(this.body.getVelocity());
 
         Matrix4 localTransform = new Matrix4();
@@ -84,7 +81,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     }
 
     private void updateBody(float dt) {
-        if (this.body.getDirection() == zero) {
+        if (this.body.getDirection() == Vector3.Zero) {
             this.body.setScalarForce(0f);
         } else {
             this.body.setScalarForce(this.maxThrust);

@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.GameBase;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.physics.Environment;
+import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.utils.Randomize;
 import com.nukedbit.shootitout.components.cameras.GameCamera;
 
@@ -46,7 +49,7 @@ public class MainGame extends GameBase {
     private void prepareComponents() {
         this.setActiveCamera(new GameCamera(this));
         this.buildEnvironment();
-        // this.setUpSound();
+        this.setUpSound();
 
         this.getComponents().add(new Background(this, "game_background.png"));
         this.getComponents().add(new StarLayer(this, 500, 50, this.random));
@@ -60,10 +63,29 @@ public class MainGame extends GameBase {
                                                             Input.Keys.SPACE });
         this.getComponents().add(input);
 
-        Player enemy = new Player(this);
-        input.subscribe(enemy);
-        this.getComponents().add(enemy);
+        Player player = buildPlayer();
+        input.subscribe(player);
+        this.getComponents().add(player);
         this.getComponents().add(new Cube(this));
+    }
+
+    private Player buildPlayer() {
+        Matrix4 initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 180f)
+                                               .rotate(new Vector3(1f, 0f, 0f), -90f);
+        Vector3 position = new Vector3(0f, 0f, -4f);
+        float scale = 0.5f;
+        float maxThrust = 5.0f;
+        RigidBody body = new RigidBody(new Vector3(0f, 0f, 0f),
+                                       new Vector3(0f, 0f, 0f),
+                                       0.1f,
+                                       0f,
+                                       this.getEnvironment());
+        return new Player(this,
+                          initialRotation,
+                          position,
+                          scale,
+                          maxThrust,
+                          body);
     }
 
     private void buildEnvironment() {
