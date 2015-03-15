@@ -3,10 +3,10 @@ package com.nukedbit.shootitout.components.cameras;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.nukedbit.framework.components.GameBase;
-import com.nukedbit.framework.components.cameras.Camera;
+import com.nukedbit.framework.components.cameras.CameraBase;
 import com.nukedbit.framework.graphics.ViewPort;
 
-public class GameCamera extends Camera {
+public class GameCamera extends CameraBase {
     private com.badlogic.gdx.graphics.Camera innerCamera;
 
     public GameCamera(GameBase game) {

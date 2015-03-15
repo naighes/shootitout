@@ -3,7 +3,7 @@ package com.nukedbit.framework.components.cameras;
 import com.badlogic.gdx.math.Matrix4;
 import com.nukedbit.framework.components.GameBase;
 
-public class OrthographicCamera extends com.nukedbit.framework.components.cameras.Camera {
+public class OrthographicCamera extends CameraBase {
     private com.badlogic.gdx.graphics.OrthographicCamera innerCamera;
 
     public OrthographicCamera(GameBase game) {

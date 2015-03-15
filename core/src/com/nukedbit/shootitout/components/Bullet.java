@@ -12,8 +12,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.physics.WorldObject;
 
-public class Bullet extends DrawableComponentBase {
+public class Bullet extends DrawableComponentBase implements WorldObject {
     private Vector3 position;
     private Matrix4 transform;
 
@@ -68,5 +69,10 @@ public class Bullet extends DrawableComponentBase {
         this.batch.begin(this.getGame().getActiveCamera().getInnerCamera());
         this.batch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
         this.batch.end();
+    }
+
+    @Override
+    public Vector3 getPosition() {
+        return this.position;
     }
 }

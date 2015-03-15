@@ -17,8 +17,9 @@ import com.nukedbit.framework.components.GameComponent;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
+import com.nukedbit.framework.physics.WorldObject;
 
-public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
+public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final Matrix4 initialRotation;
     private Vector3 position;
     private final float scale;
@@ -142,5 +143,10 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         } else if (input.getKey() == Input.Keys.UP) {
             this.body.setDirection(this.body.getDirection().x, 1f, 0f);
         }
+    }
+
+    @Override
+    public Vector3 getPosition() {
+        return this.position;
     }
 }

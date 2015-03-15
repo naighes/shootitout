@@ -3,9 +3,8 @@ package com.nukedbit.framework.components;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.nukedbit.framework.components.cameras.Camera;
+import com.nukedbit.framework.components.cameras.CameraBase;
 import com.nukedbit.framework.graphics.Drawable;
 import com.nukedbit.framework.graphics.ViewPort;
 
@@ -79,22 +78,22 @@ public abstract class GameBase implements GameComponent, Drawable {
         return shapeRenderer;
     }
 
-    public Camera getActiveCamera() {
+    public CameraBase getActiveCamera() {
         // TODO: pretty bad!
         for (int i = 0; i < this.getComponents().size(); i++) {
             GameComponent component = this.getComponents().get(i);
 
-            if (component instanceof Camera) {
-                return (Camera) component;
+            if (component instanceof CameraBase) {
+                return (CameraBase) component;
             }
         }
 
         return null;
     }
 
-    public void setActiveCamera(Camera camera) {
+    public void setActiveCamera(CameraBase camera) {
         // TODO: pretty bad!
-        Camera activeCamera = getActiveCamera();
+        CameraBase activeCamera = getActiveCamera();
 
         int index = this.getComponents().indexOf(activeCamera);
 

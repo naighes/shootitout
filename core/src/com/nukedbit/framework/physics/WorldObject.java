@@ -1,7 +1,7 @@
 package com.nukedbit.framework.physics;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public interface WorldObject {
-    Vector2 getPosition();
+    Vector3 getPosition();
 }
