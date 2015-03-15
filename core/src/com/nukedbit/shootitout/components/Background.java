@@ -28,8 +28,7 @@ public class Background extends com.nukedbit.framework.components.Sprite {
 
     private void setSpriteBounds(ViewPort viewPort) {
         final Texture texture = this.innerSprite.getTexture();
-        Vector2 position = new Vector2(viewPort.getWidth() / 2f * -1f,
-                                       viewPort.getHeight() / 2f * -1f);
+        Vector2 position = new Vector2(0f, 0f);
         this.innerSprite.setPosition(position.x, position.y);
         this.innerSprite.setSize(texture.getWidth(), texture.getHeight());
         this.innerSprite.setOrigin(texture.getWidth() / 2f, texture.getHeight() / 2f);

@@ -14,6 +14,7 @@ import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.physics.Environment;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.utils.Randomize;
+import com.nukedbit.shootitout.components.cameras.GameCamera;
 
 public class MainGame extends GameBase {
     public MainGame(Graphics graphics,
@@ -56,7 +57,7 @@ public class MainGame extends GameBase {
     }
 
     private void prepareComponents() {
-        this.setActiveCamera(new OrthographicCamera(this));
+        this.setActiveCamera(new GameCamera(this));
 
         this.setUpSound();
 

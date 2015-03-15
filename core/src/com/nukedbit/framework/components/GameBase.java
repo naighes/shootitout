@@ -43,8 +43,6 @@ public abstract class GameBase implements GameComponent, Drawable {
     }
 
     public void update(float delta) {
-        this.getSpriteBatch().setProjectionMatrix(this.getActiveCamera().getViewProjection());
-
         for (int i = 0; i < this.getComponents().size(); i++) {
             this.getComponents().get(i).update(delta);
         }
