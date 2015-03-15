@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
@@ -24,7 +23,6 @@ import com.nukedbit.framework.physics.RigidBody;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent> {
     private Vector3 position;
-    private Vector3 direction;
     private final Matrix4 initialRotation;
     private Matrix4 transform;
 
@@ -34,7 +32,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     public ModelInstance instance;
 
     private final RigidBody body;
-    private final Vector2 zero = new Vector2(0f, 0f);
+    private final Vector3 zero = new Vector3(0f, 0f, 0f);
     private float maxThrust = 5.0f;
 
     private FileHandle shootSoundFileHandle;
@@ -45,13 +43,12 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
         // positive z is outside screen.
         this.position = new Vector3(0f, 0f, -4f);
-        this.direction = new Vector3(0f, 1f, 0f);
         this.initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 180f)
                                             .rotate(new Vector3(1f, 0f, 0f), -90f);
         this.scale = 0.5f;
 
-        this.body = new RigidBody(new Vector2(0f, 0f),
-                                  new Vector2(0f, 0f),
+        this.body = new RigidBody(new Vector3(0f, 0f, 0f),
+                                  new Vector3(0f, 0f, 0f),
                                   0.1f,
                                   0f,
                                   new com.nukedbit.framework.physics.Environment(0.1f));
@@ -81,9 +78,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
         this.updateBody(dt);
 
-        Vector2 velocity = this.body.getVelocity();
-        this.position.x += velocity.x;
-        this.position.y += velocity.y;
+        this.position.add(this.body.getVelocity());
 
         Matrix4 localTransform = new Matrix4();
 
@@ -127,13 +122,13 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     public void notify(KeyboardInput.KeyReleased input) {
         if (input.getKey() == Input.Keys.LEFT) {
-            this.body.setDirection(0f, this.body.getDirection().y);
+            this.body.setDirection(0f, this.body.getDirection().y, 0f);
         } else if (input.getKey() == Input.Keys.RIGHT) {
-            this.body.setDirection(0f, this.body.getDirection().y);
+            this.body.setDirection(0f, this.body.getDirection().y, 0f);
         } else if (input.getKey() == Input.Keys.DOWN) {
-            this.body.setDirection(this.body.getDirection().x, 0f);
+            this.body.setDirection(this.body.getDirection().x, 0f, 0f);
         } else if (input.getKey() == Input.Keys.UP) {
-            this.body.setDirection(this.body.getDirection().x, 0f);
+            this.body.setDirection(this.body.getDirection().x, 0f, 0f);
         } else if (input.getKey() == Input.Keys.SPACE) {
             this.shoot();
         }
@@ -149,13 +144,13 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
 
     public void notify(KeyboardInput.KeyPressed input) {
         if (input.getKey() == Input.Keys.LEFT) {
-            this.body.setDirection(-1f, this.body.getDirection().y);
+            this.body.setDirection(-1f, this.body.getDirection().y, 0f);
         } else if (input.getKey() == Input.Keys.RIGHT) {
-            this.body.setDirection(1f, this.body.getDirection().y);
+            this.body.setDirection(1f, this.body.getDirection().y, 0f);
         } else if (input.getKey() == Input.Keys.DOWN) {
-            this.body.setDirection(this.body.getDirection().x, -1f);
+            this.body.setDirection(this.body.getDirection().x, -1f, 0f);
         } else if (input.getKey() == Input.Keys.UP) {
-            this.body.setDirection(this.body.getDirection().x, 1f);
+            this.body.setDirection(this.body.getDirection().x, 1f, 0f);
         }
     }
 }

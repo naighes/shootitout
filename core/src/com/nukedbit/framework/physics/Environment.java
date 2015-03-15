@@ -1,6 +1,6 @@
 package com.nukedbit.framework.physics;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Environment {
     private final float drag;
@@ -9,8 +9,9 @@ public class Environment {
         this.drag = drag;
     }
 
-    public Vector2 calculateDragVelocity(Vector2 currentVelocity) {
-        return new Vector2(currentVelocity.x * -1f * this.drag,
-                           currentVelocity.y * -1f * this.drag);
+    public Vector3 calculateDragVelocity(Vector3 currentVelocity) {
+        return new Vector3(currentVelocity.x * -1f * this.drag,
+                           currentVelocity.y * -1f * this.drag,
+                           currentVelocity.z * -1f * this.drag);
     }
 }

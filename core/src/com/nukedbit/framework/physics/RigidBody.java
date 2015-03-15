@@ -1,17 +1,17 @@
 package com.nukedbit.framework.physics;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class RigidBody {
     private final float mass;
-    private final Vector2 direction;
-    private Vector2 velocity;
+    private final Vector3 direction;
+    private Vector3 velocity;
     private final Environment environment;
 
     private float scalarForce;
 
-    public RigidBody(Vector2 direction,
-                     Vector2 initialVelocity,
+    public RigidBody(Vector3 direction,
+                     Vector3 initialVelocity,
                      float mass,
                      float scalarForce,
                      Environment environment) {
@@ -22,12 +22,13 @@ public class RigidBody {
         this.environment = environment;
     }
 
-    public void setDirection(float x, float y) {
+    public void setDirection(float x, float y, float z) {
         this.direction.x = x;
         this.direction.y = y;
+        this.direction.z = z;
     }
 
-    public Vector2 getDirection() {
+    public Vector3 getDirection() {
         return this.direction;
     }
 
@@ -40,17 +41,19 @@ public class RigidBody {
         this.velocity.add(this.environment.calculateDragVelocity(this.velocity));
     }
 
-    private Vector2 calculateAcceleration() {
-        return new Vector2(this.direction.x * this.scalarForce / this.mass,
-                           this.direction.y * this.scalarForce / this.mass);
+    private Vector3 calculateAcceleration() {
+        return new Vector3(this.direction.x * this.scalarForce / this.mass,
+                           this.direction.y * this.scalarForce / this.mass,
+                           this.direction.z * this.scalarForce / this.mass);
     }
 
-    private Vector2 calculateVelocity(Vector2 acceleration, float dt) {
-        return new Vector2((0.5f) * (acceleration.x * (float) Math.pow(dt, 2f)),
-                           (0.5f) * (acceleration.y * (float) Math.pow(dt, 2f)));
+    private Vector3 calculateVelocity(Vector3 acceleration, float dt) {
+        return new Vector3((0.5f) * (acceleration.x * (float) Math.pow(dt, 2f)),
+                           (0.5f) * (acceleration.y * (float) Math.pow(dt, 2f)),
+                           (0.5f) * (acceleration.z * (float) Math.pow(dt, 2f)));
     }
 
-    public Vector2 getVelocity() {
+    public Vector3 getVelocity() {
         return this.velocity;
     }
 }
