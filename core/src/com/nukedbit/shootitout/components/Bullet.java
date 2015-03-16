@@ -63,7 +63,7 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     public void update(float dt) {
         super.update(dt);
 
-        //this.position.y += 0.05f;
+        this.position.y += 0.1f;
 
         Matrix4 localTransform = new Matrix4();
 
