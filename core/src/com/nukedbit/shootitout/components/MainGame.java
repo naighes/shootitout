@@ -2,6 +2,7 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -90,9 +91,20 @@ public class MainGame extends GameBase {
 
     private void buildEnvironment() {
         com.badlogic.gdx.graphics.g3d.Environment innerEnvironment = new com.badlogic.gdx.graphics.g3d.Environment();
-        innerEnvironment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        innerEnvironment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+        innerEnvironment.set(this.buildAmbientLight());
+        innerEnvironment.add(this.buildDirectionalLight());
         this.environment = new Environment(0.1f, innerEnvironment);
+    }
+
+    private ColorAttribute buildAmbientLight() {
+        Color color = new Color(0.4f, 0.4f, 0.4f, 1f);
+        return new ColorAttribute(ColorAttribute.AmbientLight, color);
+    }
+
+    private DirectionalLight buildDirectionalLight() {
+        Color color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+        Vector3 direction = new Vector3(-1f, -0.8f, -0.2f);
+        return new DirectionalLight().set(color, direction);
     }
 
     private void setUpSound() {
