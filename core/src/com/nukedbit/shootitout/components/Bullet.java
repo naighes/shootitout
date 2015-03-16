@@ -1,19 +1,16 @@
 package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
@@ -48,12 +45,14 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
 
     private Model buildRectangle(ModelBuilder builder) {
         TextureAttribute textureAttribute = TextureAttribute.createDiffuse(this.texture);
+        BlendingAttribute blendingAttribute = new BlendingAttribute(GL20.GL_ONE,
+                                                                    GL20.GL_ONE);
         Model rectangle = builder.createRect(0f, 0f, 0f,
-                                             0.05f, 0f, 0f,
-                                             0.05f, 0.2f, 0f,
-                                             0f, 0.2f, 0f,
+                                             0.1f, 0f, 0f,
+                                             0.1f, 0.4f, 0f,
+                                             0f, 0.4f, 0f,
                                              0f, 0f, 1f,
-                                             new Material(textureAttribute),
+                                             new Material(textureAttribute, blendingAttribute),
                                              VertexAttributes.Usage.Position |
                                              VertexAttributes.Usage.Normal |
                                              VertexAttributes.Usage.TextureCoordinates);
@@ -64,7 +63,7 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     public void update(float dt) {
         super.update(dt);
 
-        this.position.y += 0.05f;
+        //this.position.y += 0.05f;
 
         Matrix4 localTransform = new Matrix4();
 
