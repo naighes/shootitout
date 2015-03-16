@@ -1,13 +1,19 @@
 package com.nukedbit.shootitout.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.TextureDescriptor;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
@@ -17,6 +23,7 @@ import com.nukedbit.framework.physics.WorldObject;
 public class Bullet extends DrawableComponentBase implements WorldObject {
     private Vector3 position;
     private Matrix4 transform;
+    private Texture texture;
 
     public Bullet(GameBase game, Vector3 initialPosition) {
         super(game);
@@ -33,26 +40,31 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
 
         this.batch = new ModelBatch();
 
+        this.texture = new Texture(Gdx.files.internal("bullet_2.png"));
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(buildRectangle(builder));
         this.transform = this.instance.transform.cpy();
     }
 
     private Model buildRectangle(ModelBuilder builder) {
-        return builder.createRect(0f, 0f, 0f,
-                                  0.05f, 0f, 0f,
-                                  0.05f, 0.2f, 0f,
-                                  0f, 0.2f, 0f,
-                                  0f, 0f, 1f,
-                                  new Material(ColorAttribute.createDiffuse(Color.RED)),
-                                  VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        TextureAttribute textureAttribute = TextureAttribute.createDiffuse(this.texture);
+        Model rectangle = builder.createRect(0f, 0f, 0f,
+                                             0.05f, 0f, 0f,
+                                             0.05f, 0.2f, 0f,
+                                             0f, 0.2f, 0f,
+                                             0f, 0f, 1f,
+                                             new Material(textureAttribute),
+                                             VertexAttributes.Usage.Position |
+                                             VertexAttributes.Usage.Normal |
+                                             VertexAttributes.Usage.TextureCoordinates);
+        return rectangle;
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
 
-        this.position.y += 0.2f;
+        this.position.y += 0.05f;
 
         Matrix4 localTransform = new Matrix4();
 
