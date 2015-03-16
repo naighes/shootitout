@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Frustum;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
@@ -66,6 +67,8 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     public void update(float dt) {
         super.update(dt);
 
+        this.removeOnceOutsideFrustum();
+
         this.position.y += 0.05f;
 
         Matrix4 localTransform = new Matrix4();
@@ -75,6 +78,13 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
         localTransform.mul(new Matrix4().scale(scale, scale, scale));
 
         this.instance.transform = localTransform;
+    }
+
+    private void removeOnceOutsideFrustum() {
+        Frustum frustum = this.getGame().getActiveCamera().getInnerCamera().frustum;
+
+        if (!frustum.pointInFrustum(this.position))
+            this.getGame().getComponents().remove(this);
     }
 
     @Override
