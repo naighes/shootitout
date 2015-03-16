@@ -73,9 +73,9 @@ public class MainGame extends GameBase {
     private Player buildPlayer() {
         Matrix4 initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 180f)
                                                .rotate(new Vector3(1f, 0f, 0f), -90f);
-        Vector3 position = new Vector3(0f, 0f, -4f);
-        float scale = 0.5f;
-        float maxThrust = 5.0f;
+        Vector3 position = new Vector3(0f, 0f, 0f);
+        float scale = 0.13f;
+        float maxThrust = 1.2f;
         RigidBody body = new RigidBody(new Vector3(0f, 0f, 0f),
                                        new Vector3(0f, 0f, 0f),
                                        0.1f,

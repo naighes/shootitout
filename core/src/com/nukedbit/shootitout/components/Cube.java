@@ -17,20 +17,19 @@ import com.nukedbit.framework.components.GameBase;
 
 public class Cube extends DrawableComponentBase {
     private Vector3 position;
-    private Vector3 direction;
     private Matrix4 transform;
 
     protected Cube(GameBase game) {
         super(game);
 
-        this.position = new Vector3(-1.3f, 2.5f, -4f);
+        this.position = new Vector3(-0.5f, 0.7f, 0f);
     }
 
     private ModelInstance instance;
     private ModelBatch batch;
     private Environment environment;
     private float rotation = 0.0f;
-    private final float scale = 0.4f;
+    private final float scale = 0.11f;
 
     @Override
     public void initialize() {
@@ -61,7 +60,7 @@ public class Cube extends DrawableComponentBase {
         super.update(dt);
 
         this.rotation += 1.2f;
-        this.position.y -= 0.005f;
+        this.position.y -= 0.003f;
 
         Matrix4 localTransform = new Matrix4();
 

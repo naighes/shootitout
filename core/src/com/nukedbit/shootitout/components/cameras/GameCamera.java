@@ -19,8 +19,8 @@ public class GameCamera extends CameraBase {
 
         ViewPort viewPort = this.getGame().getViewPort();
         this.innerCamera = new PerspectiveCamera(67, viewPort.getWidth(), viewPort.getHeight());
-        this.innerCamera.position.set(0f, 0f, 0f);
-        this.innerCamera.lookAt(0f, 0f, -1f);
+        this.innerCamera.position.set(0f, 0f, 1f);
+        this.innerCamera.lookAt(0f, 0f, 0f);
         this.innerCamera.near = 0.1f;
         this.innerCamera.far = 100f;
         this.innerCamera.update();

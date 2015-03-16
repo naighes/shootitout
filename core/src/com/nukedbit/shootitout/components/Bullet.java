@@ -19,13 +19,17 @@ import com.nukedbit.framework.physics.WorldObject;
 
 public class Bullet extends DrawableComponentBase implements WorldObject {
     private Vector3 position;
+    private final float scale;
     private Matrix4 transform;
     private Texture texture;
 
-    public Bullet(GameBase game, Vector3 initialPosition) {
+    public Bullet(GameBase game,
+                  Vector3 initialPosition,
+                  float scale) {
         super(game);
 
         this.position = initialPosition;
+        this.scale = scale;
     }
 
     private ModelInstance instance;
@@ -37,7 +41,7 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
 
         this.batch = new ModelBatch();
 
-        this.texture = new Texture(Gdx.files.internal("bullet_2.png"));
+        this.texture = new Texture(Gdx.files.internal("bullet_3.png"));
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(buildRectangle(builder));
         this.transform = this.instance.transform.cpy();
@@ -48,9 +52,9 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
         BlendingAttribute blendingAttribute = new BlendingAttribute(GL20.GL_ONE,
                                                                     GL20.GL_ONE);
         Model rectangle = builder.createRect(0f, 0f, 0f,
-                                             0.1f, 0f, 0f,
-                                             0.1f, 0.4f, 0f,
-                                             0f, 0.4f, 0f,
+                                             1f, 0f, 0f,
+                                             1f, 6f, 0f,
+                                             0f, 6f, 0f,
                                              0f, 0f, 1f,
                                              new Material(textureAttribute, blendingAttribute),
                                              VertexAttributes.Usage.Position |
@@ -63,12 +67,13 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     public void update(float dt) {
         super.update(dt);
 
-        this.position.y += 0.1f;
+        this.position.y += 0.05f;
 
         Matrix4 localTransform = new Matrix4();
 
         localTransform.mul(this.transform);
         localTransform.mul(new Matrix4().setToTranslation(this.position));
+        localTransform.mul(new Matrix4().scale(scale, scale, scale));
 
         this.instance.transform = localTransform;
     }

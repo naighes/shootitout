@@ -126,9 +126,11 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     }
 
     private void shoot() {
-        GameComponent bullet = new Bullet(this.getGame(), new Vector3(this.position.x,
-                                                                      this.position.y,
-                                                                      this.position.z));
+        GameComponent bullet = new Bullet(this.getGame(),
+                                          new Vector3(this.position.x,
+                                                      this.position.y,
+                                                      this.position.z),
+                                          0.018f);
         this.getGame().getComponents().add(bullet);
         sound.play();
     }
