@@ -24,11 +24,11 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     private Texture texture;
 
     public Bullet(GameBase game,
-                  Vector3 initialPosition,
+                  Vector3 position,
                   float scale) {
         super(game);
 
-        this.position = initialPosition;
+        this.position = position;
         this.scale = scale;
     }
 
@@ -39,9 +39,8 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
     public void initialize() {
         super.initialize();
 
-        this.batch = new ModelBatch();
-
         this.texture = new Texture(Gdx.files.internal("bullet_3.png"));
+        this.batch = new ModelBatch();
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(buildRectangle(builder));
         this.transform = this.instance.transform.cpy();

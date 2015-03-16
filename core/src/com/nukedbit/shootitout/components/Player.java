@@ -1,11 +1,8 @@
 package com.nukedbit.shootitout.components;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
@@ -13,11 +10,11 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
-import com.nukedbit.framework.components.GameComponent;
 import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.observing.Observer;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.physics.WorldObject;
+import com.nukedbit.shootitout.BulletBuilder;
 
 public class Player extends DrawableComponentBase implements Observer<KeyboardInput.KeyEvent>, WorldObject {
     private final Matrix4 initialRotation;
@@ -28,18 +25,18 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     private final float maxThrust;
     private final RigidBody body;
 
-    public ModelBatch batch;
-    public ModelInstance instance;
+    private ModelBatch batch;
+    private ModelInstance instance;
 
-    private FileHandle shootSoundFileHandle;
-    private Sound sound;
+    private final BulletBuilder bulletBuilder;
 
     protected Player(GameBase game,
                      Matrix4 initialRotation,
                      Vector3 position,
                      float scale,
                      float maxThrust,
-                     RigidBody body) {
+                     RigidBody body,
+                     BulletBuilder bulletBuilder) {
         super(game);
 
         this.initialRotation = initialRotation;
@@ -47,6 +44,7 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         this.scale = scale;
         this.maxThrust = maxThrust;
         this.body = body;
+        this.bulletBuilder = bulletBuilder;
     }
 
     @Override
@@ -57,14 +55,6 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         ModelLoader<?> loader = new ObjLoader();
         this.instance = new ModelInstance(loader.loadModel(Gdx.files.internal("ship/ship.obj")));
         this.transform = this.instance.transform.cpy();
-
-        this.loadSound();
-    }
-
-    private void loadSound() {
-        this.shootSoundFileHandle = Gdx.files.getFileHandle("science_fiction_laser_007.mp3",
-                                                            Files.FileType.Absolute);
-        this.sound = Gdx.audio.newSound(shootSoundFileHandle);
     }
 
     @Override
@@ -124,18 +114,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
         } else if (input.getKey() == Input.Keys.UP) {
             this.body.setDirection(this.body.getDirection().x, 0f, 0f);
         } else if (input.getKey() == Input.Keys.SPACE) {
-            this.shoot();
+            this.bulletBuilder.shootAt(this.position);
         }
-    }
-
-    private void shoot() {
-        GameComponent bullet = new Bullet(this.getGame(),
-                                          new Vector3(this.position.x,
-                                                      this.position.y,
-                                                      this.position.z),
-                                          0.018f);
-        this.getGame().getComponents().add(bullet);
-        sound.play();
     }
 
     public void notify(KeyboardInput.KeyPressed input) {

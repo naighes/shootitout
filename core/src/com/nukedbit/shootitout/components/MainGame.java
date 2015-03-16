@@ -15,6 +15,7 @@ import com.nukedbit.framework.components.input.KeyboardInput;
 import com.nukedbit.framework.physics.Environment;
 import com.nukedbit.framework.physics.RigidBody;
 import com.nukedbit.framework.utils.Randomize;
+import com.nukedbit.shootitout.BulletBuilder;
 import com.nukedbit.shootitout.components.cameras.GameCamera;
 
 public class MainGame extends GameBase {
@@ -63,8 +64,11 @@ public class MainGame extends GameBase {
                                                             Input.Keys.DOWN,
                                                             Input.Keys.SPACE });
         this.getComponents().add(input);
+        BulletBuilder bulletBuilder = new BulletBuilder(this,
+                                                        "science_fiction_laser_007.mp3");
+        this.getComponents().add(bulletBuilder);
 
-        Player player = buildPlayer();
+        Player player = buildPlayer(bulletBuilder);
         input.subscribe(player);
         this.getComponents().add(player);
         this.getComponents().add(buildCube());
@@ -80,7 +84,7 @@ public class MainGame extends GameBase {
                         scale);
     }
 
-    private Player buildPlayer() {
+    private Player buildPlayer(BulletBuilder bulletBuilder) {
         Matrix4 initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 180f)
                                                .rotate(new Vector3(1f, 0f, 0f), -90f);
         Vector3 position = new Vector3(0f, 0f, 0f);
@@ -96,7 +100,8 @@ public class MainGame extends GameBase {
                           position,
                           scale,
                           maxThrust,
-                          body);
+                          body,
+                          bulletBuilder);
     }
 
     private void buildEnvironment() {
