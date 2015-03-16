@@ -67,7 +67,7 @@ public class MainGame extends GameBase {
         Player player = buildPlayer();
         input.subscribe(player);
         this.getComponents().add(player);
-        this.getComponents().add(new Cube(this));
+        this.getComponents().add(new Cube(this, 0.11f));
     }
 
     private Player buildPlayer() {

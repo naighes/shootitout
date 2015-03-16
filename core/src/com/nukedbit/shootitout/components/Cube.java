@@ -2,13 +2,11 @@ package com.nukedbit.shootitout.components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -19,24 +17,23 @@ public class Cube extends DrawableComponentBase {
     private Vector3 position;
     private Matrix4 transform;
 
-    protected Cube(GameBase game) {
+    protected Cube(GameBase game, float scale) {
         super(game);
 
         this.position = new Vector3(-0.5f, 0.7f, 0f);
+        this.scale = scale;
     }
 
     private ModelInstance instance;
     private ModelBatch batch;
-    private Environment environment;
     private float rotation = 0.0f;
-    private final float scale = 0.11f;
+    private final float scale;
 
     @Override
     public void initialize() {
         super.initialize();
 
         this.batch = new ModelBatch();
-        this.buildEnvironment();
 
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(this.buildCube(builder));
@@ -47,12 +44,6 @@ public class Cube extends DrawableComponentBase {
         return builder.createBox(0.5f, 0.5f, 0.5f,
                                  new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                                  VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-    }
-
-    private void buildEnvironment() {
-        this.environment = new Environment();
-        this.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        this.environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
     @Override
@@ -78,7 +69,7 @@ public class Cube extends DrawableComponentBase {
         super.render();
 
         this.batch.begin(this.getGame().getActiveCamera().getInnerCamera());
-        this.batch.render(this.instance, this.environment);
+        this.batch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
         this.batch.end();
     }
 }
