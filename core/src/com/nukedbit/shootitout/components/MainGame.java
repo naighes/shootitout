@@ -67,7 +67,17 @@ public class MainGame extends GameBase {
         Player player = buildPlayer();
         input.subscribe(player);
         this.getComponents().add(player);
-        this.getComponents().add(new Cube(this, 0.11f));
+        this.getComponents().add(buildCube());
+    }
+
+    private Cube buildCube() {
+        Matrix4 initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 45f);
+        Vector3 position = new Vector3(-0.5f, 0.7f, 0f);
+        float scale = 0.11f;
+        return new Cube(this,
+                        initialRotation,
+                        position,
+                        scale);
     }
 
     private Player buildPlayer() {

@@ -23,12 +23,12 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     private final Matrix4 initialRotation;
     private Vector3 position;
     private final float scale;
+    private Matrix4 transform;
+
     private final float maxThrust;
     private final RigidBody body;
 
-    private Matrix4 transform;
-
-    public ModelBatch modelBatch;
+    public ModelBatch batch;
     public ModelInstance instance;
 
     private FileHandle shootSoundFileHandle;
@@ -42,8 +42,8 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
                      RigidBody body) {
         super(game);
 
-        this.position = position;
         this.initialRotation = initialRotation;
+        this.position = position;
         this.scale = scale;
         this.maxThrust = maxThrust;
         this.body = body;
@@ -53,15 +53,18 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     public void initialize() {
         super.initialize();
 
-        this.shootSoundFileHandle = Gdx.files.getFileHandle("science_fiction_laser_007.mp3",
-                                                            Files.FileType.Absolute);
-        this.sound = Gdx.audio.newSound(shootSoundFileHandle);
-
-        this.modelBatch = new ModelBatch();
-
+        this.batch = new ModelBatch();
         ModelLoader<?> loader = new ObjLoader();
         this.instance = new ModelInstance(loader.loadModel(Gdx.files.internal("ship/ship.obj")));
         this.transform = this.instance.transform.cpy();
+
+        this.loadSound();
+    }
+
+    private void loadSound() {
+        this.shootSoundFileHandle = Gdx.files.getFileHandle("science_fiction_laser_007.mp3",
+                                                            Files.FileType.Absolute);
+        this.sound = Gdx.audio.newSound(shootSoundFileHandle);
     }
 
     @Override
@@ -95,9 +98,9 @@ public class Player extends DrawableComponentBase implements Observer<KeyboardIn
     public void render() {
         super.render();
 
-        this.modelBatch.begin(this.getGame().getActiveCamera().getInnerCamera());
-        this.modelBatch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
-        this.modelBatch.end();
+        this.batch.begin(this.getGame().getActiveCamera().getInnerCamera());
+        this.batch.render(this.instance, this.getGame().getEnvironment().getInnerEnvironment());
+        this.batch.end();
     }
 
     @Override

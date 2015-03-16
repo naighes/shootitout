@@ -14,27 +14,31 @@ import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
 
 public class Cube extends DrawableComponentBase {
+    private final Matrix4 initialRotation;
     private Vector3 position;
+    private final float scale;
     private Matrix4 transform;
 
-    protected Cube(GameBase game, float scale) {
+    protected Cube(GameBase game,
+                   Matrix4 initialRotation,
+                   Vector3 position,
+                   float scale) {
         super(game);
 
-        this.position = new Vector3(-0.5f, 0.7f, 0f);
+        this.initialRotation = initialRotation;
+        this.position = position;
         this.scale = scale;
     }
 
     private ModelInstance instance;
     private ModelBatch batch;
     private float rotation = 0.0f;
-    private final float scale;
 
     @Override
     public void initialize() {
         super.initialize();
 
         this.batch = new ModelBatch();
-
         ModelBuilder builder = new ModelBuilder();
         this.instance = new ModelInstance(this.buildCube(builder));
         this.transform = this.instance.transform.cpy();
@@ -58,8 +62,8 @@ public class Cube extends DrawableComponentBase {
         localTransform.mul(this.transform);
         localTransform.mul(new Matrix4().setToTranslation(this.position));
         localTransform.mul(new Matrix4().scale(scale, scale, scale));
-        localTransform.mul(new Matrix4().rotate(new Vector3(1f, 0f, 0f), this.rotation)
-                .rotate(new Vector3(0f, 1f, 0f), 45f));
+        localTransform.mul(new Matrix4().rotate(new Vector3(1f, 0f, 0f), this.rotation));
+        localTransform.mul(this.initialRotation);
 
         this.instance.transform = localTransform;
     }
