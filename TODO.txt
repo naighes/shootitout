@@ -1,1 +1,5 @@
- - Making use of libgdx's Sprite class.
+ - thrust animation (particle system?).
+ - let's experiment cube-collisions.
+    * with bullet.
+    * with ship.
+ - reflection shader for ship.
