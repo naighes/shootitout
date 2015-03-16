@@ -78,10 +78,16 @@ public class MainGame extends GameBase {
         Matrix4 initialRotation = new Matrix4().rotate(new Vector3(0f, 1f, 0f), 45f);
         Vector3 position = new Vector3(-0.5f, 0.7f, 0f);
         float scale = 0.11f;
+        RigidBody body = new RigidBody(new Vector3(0f, -1f, 0f),
+                                       new Vector3(0f, 0.0f, 0f),
+                                       0.4f,
+                                       0.3f,
+                                       this.environment);
         return new Cube(this,
                         initialRotation,
                         position,
-                        scale);
+                        scale,
+                        body);
     }
 
     private Player buildPlayer(BulletBuilder bulletBuilder) {

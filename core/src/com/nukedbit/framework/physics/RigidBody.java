@@ -37,7 +37,7 @@ public class RigidBody {
     }
 
     public void update(float dt) {
-        this.velocity.add(calculateVelocity(calculateAcceleration(), dt));
+        this.velocity.add(calculateVelocity(this.calculateAcceleration(), dt));
         this.velocity.add(this.environment.calculateDragVelocity(this.velocity));
     }
 

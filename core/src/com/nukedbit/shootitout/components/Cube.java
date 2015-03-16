@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.nukedbit.framework.components.DrawableComponentBase;
 import com.nukedbit.framework.components.GameBase;
+import com.nukedbit.framework.physics.RigidBody;
 
 public class Cube extends DrawableComponentBase {
     private final Matrix4 initialRotation;
@@ -19,15 +20,19 @@ public class Cube extends DrawableComponentBase {
     private final float scale;
     private Matrix4 transform;
 
+    private final RigidBody body;
+
     protected Cube(GameBase game,
                    Matrix4 initialRotation,
                    Vector3 position,
-                   float scale) {
+                   float scale,
+                   RigidBody body) {
         super(game);
 
         this.initialRotation = initialRotation;
         this.position = position;
         this.scale = scale;
+        this.body = body;
     }
 
     private ModelInstance instance;
@@ -54,8 +59,10 @@ public class Cube extends DrawableComponentBase {
     public void update(float dt) {
         super.update(dt);
 
+        this.body.update(dt);
+
         this.rotation += 1.2f;
-        this.position.y -= 0.003f;
+        this.position.add(this.body.getVelocity());
 
         Matrix4 localTransform = new Matrix4();
 
