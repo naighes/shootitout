@@ -49,8 +49,7 @@ public class Bullet extends DrawableComponentBase implements WorldObject {
 
     private Model buildRectangle(ModelBuilder builder) {
         TextureAttribute textureAttribute = TextureAttribute.createDiffuse(this.texture);
-        BlendingAttribute blendingAttribute = new BlendingAttribute(GL20.GL_ONE,
-                                                                    GL20.GL_ONE);
+        BlendingAttribute blendingAttribute = new BlendingAttribute(GL20.GL_ONE, GL20.GL_ONE);
         Model rectangle = builder.createRect(0f, 0f, 0f,
                                              1f, 0f, 0f,
                                              1f, 6f, 0f,
